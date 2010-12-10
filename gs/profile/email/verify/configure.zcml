@@ -4,7 +4,18 @@
   xmlns:five="http://namespaces.zope.org/five"
   i18n_domain="groupserver">
 
-  
+  <!--Email Verify User-->
+  <interface interface=".interfaces.IGSEmailVerifyUser"/>
+  <adapter provides=".interfaces.IGSEmailVerifyUser"
+    for="Products.CustomUserFolder.interfaces.IGSUserInfo"
+    permission="zope2.Public"
+    factory=".emailverifyuser.EmailVerifyUser" />
+
+  <!--Email Verification Redirect-->
+  <adapter for="Products.GSRedirect.interfaces.IGSRedirectTraversal"
+    factory=".redirect.RedirectEmailVerification"
+    provides="Products.GSRedirect.interfaces.IGSRedirect"
+    name="verify" />
 
 </configure>
 
