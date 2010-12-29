@@ -13,9 +13,9 @@ log = logging.getLogger(SUBSYSTEM) #@UndefinedVariable
 
 UNKNOWN      = '0'
 # verification user
-SET          = '1'
-ADD_VERIFY   = '2' # --=mpj17=-- Not used
-CLEAR_VERIFY = '3'
+VERIFIED     = '1' # Rewritten
+ADD_VERIFY   = '2' #    "
+CLEAR_VERIFY = '3' #    "
 # request verify
 REQUEST      = '5'
 REQUEST_FAIL = '6'
@@ -35,14 +35,15 @@ class AuditEventFactory(object):
     def __call__(self, context, event_id,  code, date,
         userInfo, instanceUserInfo,  siteInfo,  groupInfo=None,
         instanceDatum='', supplementaryDatum='', subsystem=''):
-        if code == SET:
-            event = SetEvent(context, event_id, date, userInfo, siteInfo)
+        if code == VERIFIED:
+            event = VerifiedEvent(context, event_id, date, userInfo, 
+                        siteInfo, instanceDatum)
         elif code == ADD_VERIFY:
             event = AddVerifyEvent(context, event_id, date, userInfo,
-                        siteInfo)
+                        siteInfo, instanceDatum)
         elif code == CLEAR_VERIFY:
             event = ClearVerifyEvent(context, event_id, date, userInfo,
-                        siteInfo)
+                        siteInfo, instanceDatum)
         elif code == REQUEST:
             event = RequestVerifyEvent(context, event_id, date, userInfo,
                         siteInfo, instanceDatum)
@@ -71,17 +72,18 @@ class AuditEventFactory(object):
     def getInterfaces(self):
         return implementedBy(BasicAuditEvent)
         
-class SetEvent(BasicAuditEvent):
-    ''' An audit-trail event representing a person setting a password.'''
+class VerifiedEvent(BasicAuditEvent):
+    ''' An audit-trail event representing a person verifying an email address.'''
     implements(IAuditEvent)
 
-    def __init__(self, context, id, d, userInfo, siteInfo):
-        BasicAuditEvent.__init__(self, context, id,  SET, d, 
-            userInfo, userInfo, siteInfo, None, None, None, SUBSYSTEM)
+    def __init__(self, context, id, d, userInfo, siteInfo, instanceDatum):
+        BasicAuditEvent.__init__(self, context, id,  VERIFIED, d, 
+            userInfo, userInfo, siteInfo, instanceDatum, None, None, SUBSYSTEM)
     
     def __unicode__(self):
-        retval = u'%s (%s) set a password on %s (%s).' %\
+        retval = u'%s (%s) verified the email address <%s> on %s (%s).' %\
            (self.userInfo.name, self.userInfo.id,
+            self.instanceDatum,
             self.siteInfo.name, self.siteInfo.id)
         return retval
         
@@ -93,25 +95,27 @@ class SetEvent(BasicAuditEvent):
     def xhtml(self):
         cssClass = u'audit-event gs-profile-email-verify-%s' %\
           self.code
-        retval = u'<span class="%s">Set a password.</span>' % cssClass
+        retval = u'<span class="%s">Verified the address <%s>.</span>' % \
+         (cssClass, self.instanceDatum)
         retval = u'%s (%s)' % \
           (retval, munge_date(self.context, self.date))
         return retval
 
-#--=mpj17=-- Not used, but goes 2010-11-22
 class AddVerifyEvent(BasicAuditEvent):
-    ''' An audit-trail event representing a person adding an
-        email address.'''
+    ''' An audit-trail event representing a person adding a
+        verification request for an email address.'''
     implements(IAuditEvent)
 
-    def __init__(self, context, id, d, userInfo, siteInfo):
+    def __init__(self, context, id, d, userInfo, siteInfo, instanceDatum):
         BasicAuditEvent.__init__(self, context, id,  ADD_VERIFY, d, 
-            userInfo, userInfo, siteInfo, None, None, None,
+            userInfo, userInfo, siteInfo, instanceDatum, None, None,
             SUBSYSTEM)
     
     def __unicode__(self):
-        retval = u'%s (%s) reset a password on %s (%s).' %\
+        retval = u'%s (%s) added a verification request for '\
+          '<%s> on %s (%s).' %\
            (self.userInfo.name, self.userInfo.id,
+            self.instanceDatum,
             self.siteInfo.name, self.siteInfo.id)
         return retval
         
@@ -123,24 +127,27 @@ class AddVerifyEvent(BasicAuditEvent):
     def xhtml(self):
         cssClass = u'audit-event gs-profile-email-verify-%s' %\
           self.code
-        retval = u'<span class="%s">Verify a password.</span>' % cssClass
+        retval = u'<span class="%s">Added a verification request for %s.</span>' % \
+          (cssClass, self.instanceDatum)
         retval = u'%s (%s)' % \
           (retval, munge_date(self.context, self.date))
         return retval
 
 class ClearVerifyEvent(BasicAuditEvent):
-    ''' An audit-trail event representing a person clearing all reset
-        IDs.'''
+    ''' An audit-trail event representing a person clearing all verification
+        IDs for an email address.'''
     implements(IAuditEvent)
 
-    def __init__(self, context, id, d, userInfo, siteInfo):
+    def __init__(self, context, id, d, userInfo, siteInfo, instanceDatum):
         BasicAuditEvent.__init__(self, context, id,  CLEAR_VERIFY, d, 
-            userInfo, userInfo, siteInfo, None, None, None,
+            userInfo, userInfo, siteInfo, instanceDatum, None, None,
             SUBSYSTEM)
     
     def __unicode__(self):
-        retval = u'%s (%s) cleared all password reset IDs on %s (%s).' %\
+        retval = u'%s (%s) cleared all email verification IDs '\
+          'for <%s> on %s (%s).' %\
            (self.userInfo.name, self.userInfo.id,
+            self.instanceDatum,
             self.siteInfo.name, self.siteInfo.id)
         return retval
         
@@ -152,8 +159,8 @@ class ClearVerifyEvent(BasicAuditEvent):
     def xhtml(self):
         cssClass = u'audit-event gs-profile-email-verify-%s' %\
           self.code
-        retval = u'<span class="%s">Cleared password reset '\
-            u'IDs.</span>' % cssClass
+        retval = u'<span class="%s">Cleared email verification '\
+            u'IDs for <%s>.</span>' % (cssClass, self.instanceDatum)
         retval = u'%s (%s)' % \
           (retval, munge_date(self.context, self.date))
         return retval

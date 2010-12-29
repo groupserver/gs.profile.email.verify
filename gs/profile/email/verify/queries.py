@@ -2,10 +2,47 @@
 import pytz, datetime
 import sqlalchemy as sa
 
-class EmailVerifyQuery(object):
+class EmailQuery(object):
+    def __init__(self, da, email):
+        self.emailVerifyTable = da.createTable('email_verification')
+        self.userEmailTable = da.createTable('user_email')
+        assert email, 'No email'
+        # One day we will have constraints
+        aclUsers = da.site_root().acl_users
+        user = aclUsers.get_userByEmail(email)
+        assert user, 'No user for email address %s' % email
+        self.email = email
+        
+    def set_verification_id(self, verificationId):
+        assert verificationId, 'No verificationId'
+        evt = self.emailVerifyTable
+        i = evt.insert()
+        i.execute(verification_id = verificationId, 
+                  email = self.email)
+
+    def verify_address(self, verificationId):
+        assert verificationId, 'No verificationId'
+        uet = self.userEmailTable
+        d = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
+        s = uet.update(sa.func.lower(uet.c.email) == self.email.lower())
+        s.execute(verified_date = d)
+
+    def clear_verification_ids(self):
+        evt = self.emailVerifyTable
+        u = evt.update(sa.and_(evt.c.email == self.email,
+                               evt.c.reset == None))
+        d = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
+        u.execute(reset = d)
+
+    def unverify_address(self):
+        uet = self.userEmailTable
+        s = uet.update(sa.func.lower(uet.c.email) == self.email.lower())
+        s.execute(verified_date = None)
+
+class VerificationQuery(object):
     NOT_FOUND  = 0
     CURRENT    = 1
-    VERIFY     = 2
+    VERIFIED   = 2
     def __init__(self, da):
         self.emailVerifyTable = da.createTable('email_verification')
         
@@ -31,9 +68,9 @@ class EmailVerifyQuery(object):
             if r['verified'] == None:
                 retval = self.CURRENT
             else:
-                retval = self.VERIFY
+                retval = self.VERIFIED
         else:
             retval = self.NOT_FOUND
-        assert retval in (self.NOT_FOUND, self.CURRENT, self.VERIFY)
+        assert retval in (self.NOT_FOUND, self.CURRENT, self.VERIFIED)
         return retval
 
