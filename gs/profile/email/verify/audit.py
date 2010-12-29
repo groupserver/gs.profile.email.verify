@@ -4,7 +4,7 @@ from datetime import datetime
 from zope.component.interfaces import IFactory
 from zope.interface import implements, implementedBy
 from Products.GSAuditTrail import IAuditEvent, BasicAuditEvent, \
-    AuditQuery, event_id_from_data
+  AuditQuery, event_id_from_data
 from Products.XWFCore.XWFUtils import munge_date
 
 SUBSYSTEM = 'gs.profile.email.verify'
@@ -20,17 +20,17 @@ CLEAR_VERIFY = '3'
 REQUEST      = '5'
 REQUEST_FAIL = '6'
 # redirect
-VERIFY_LOGIN  = '7'
-VERIFY_ID_400 = '8'
-VERIFY_ID_404 = '9'
-VERIFY_ID_410 = '10'
+VERIFY_LOGIN  = '7'  # Rewritten
+VERIFY_ID_400 = '8'  #    "
+VERIFY_ID_404 = '9'  #    "
+VERIFY_ID_410 = '10' #    "
 
 
 class AuditEventFactory(object):
     implements(IFactory)
 
-    title=u'Password Audit-Event Factory'
-    description=u'Creates a GroupServer audit event for passwords'
+    title=u'Email Verification Audit-Event Factory'
+    description=u'Creates a GroupServer audit event for email address verification'
 
     def __call__(self, context, event_id,  code, date,
         userInfo, instanceUserInfo,  siteInfo,  groupInfo=None,
@@ -100,8 +100,8 @@ class SetEvent(BasicAuditEvent):
 
 #--=mpj17=-- Not used, but goes 2010-11-22
 class AddVerifyEvent(BasicAuditEvent):
-    ''' An audit-trail event representing a person resetting a
-        password.'''
+    ''' An audit-trail event representing a person adding an
+        email address.'''
     implements(IAuditEvent)
 
     def __init__(self, context, id, d, userInfo, siteInfo):
@@ -226,8 +226,8 @@ class RequestVerifyFailEvent(BasicAuditEvent):
         return retval
 
 class VerifyLoginEvent(BasicAuditEvent):
-    ''' An audit-trail event representing a person logging in to reset
-        his or her password.'''
+    ''' An audit-trail event representing a person logging in upon
+        verifying his or her email address.'''
     implements(IAuditEvent)
 
     def __init__(self, context, id, d, userInfo, siteInfo):
@@ -236,7 +236,7 @@ class VerifyLoginEvent(BasicAuditEvent):
     
     def __unicode__(self):
         retval = u'Logging in %s (%s) and sending the user to the '\
-            u'reset password page on %s (%s). ' %\
+            u'email verified page on %s (%s). ' %\
             (self.userInfo.name,  self.userInfo.id,
              self.siteInfo.name,  self.siteInfo.id)
         return retval
@@ -249,8 +249,8 @@ class VerifyLoginEvent(BasicAuditEvent):
     def xhtml(self):
         cssClass = u'audit-event gs-profile-email-verify-%s' %\
           self.code
-        retval = u'<span class="%s">Logging in for password '\
-            u'reset.</span>' % cssClass
+        retval = u'<span class="%s">Logging in for email '\
+            u'verification.</span>' % cssClass
         retval = u'%s (%s)' % \
           (retval, munge_date(self.context, self.date))
         return retval
@@ -264,7 +264,7 @@ class VerifyLoginNoIdEvent(BasicAuditEvent):
             None, None, siteInfo, None, None, None, SUBSYSTEM)
     
     def __unicode__(self):
-        retval = u'Password-reset on %s (%s) with no ID.' %\
+        retval = u'Email verification on %s (%s) with no ID.' %\
             (self.siteInfo.name,  self.siteInfo.id)
         return retval
         
@@ -276,15 +276,15 @@ class VerifyLoginNoIdEvent(BasicAuditEvent):
     def xhtml(self):
         cssClass = u'audit-event gs-profile-email-verify-%s' %\
           self.code
-        retval = u'<span class="%s">No ID with password '\
-            u'reset.</span>' % cssClass
+        retval = u'<span class="%s">No ID with email '\
+            u'verification.</span>' % cssClass
         retval = u'%s (%s)' % \
           (retval, munge_date(self.context, self.date))
         return retval
 
 # VERIFY_ID_404
 class VerifyLoginIdNotFoundEvent(BasicAuditEvent):
-    ''' An audit-trail event representing a email-verify with no ID.'''
+    ''' An audit-trail event representing an email-verify with an unknown ID.'''
     implements(IAuditEvent)
 
     def __init__(self, context, id, d, siteInfo, instanceDatum):
@@ -292,7 +292,7 @@ class VerifyLoginIdNotFoundEvent(BasicAuditEvent):
             None, None, siteInfo, None, instanceDatum, None, SUBSYSTEM)
     
     def __unicode__(self):
-        retval = u'Password-reset on %s (%s) but the ID was not '\
+        retval = u'Email-verify on %s (%s) but the ID was not '\
             u'found (%s).' % \
             (self.siteInfo.name,  self.siteInfo.id,
             self.instanceDatum)
@@ -306,7 +306,7 @@ class VerifyLoginIdNotFoundEvent(BasicAuditEvent):
     def xhtml(self):
         cssClass = u'audit-event gs-profile-email-verify-%s' %\
           self.code
-        retval = u'<span class="%s">Password reset ID %s not '\
+        retval = u'<span class="%s">Email verification ID %s not '\
             u'found.</span>' % (cssClass, self.instanceDatum)
         retval = u'%s (%s)' % \
           (retval, munge_date(self.context, self.date))
@@ -315,7 +315,7 @@ class VerifyLoginIdNotFoundEvent(BasicAuditEvent):
 # VERIFY_ID_410
 class VerifyLoginIdUsedEvent(BasicAuditEvent):
     ''' An audit-trail event representing someone following a used
-    email-verify link.'''
+        email-verify link.'''
     implements(IAuditEvent)
 
     def __init__(self, context, id, d, userInfo, siteInfo,

@@ -31,7 +31,7 @@ class RedirectEmailVerification(GSRedirectBase):
                 else:
                     auditor.info(VERIFY_ID_410, emailVerificationUser, 
                         verificationId)
-                    uri = '/email-verify-used.html?resetId=%s' %\
+                    uri = '/email-verify-used.html?verificationId=%s' %\
                         verificationId
         else:
             auditor.info(VERIFY_ID_400)

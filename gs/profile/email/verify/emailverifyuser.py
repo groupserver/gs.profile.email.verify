@@ -3,6 +3,7 @@ from zope.component import createObject
 from zope.component.factory import Factory
 from queries import EmailVerifyQuery
 from Products.CustomUserFolder.userinfo import GSUserInfo
+from Products.CustomUserFolder.interfaces import IGSUserInfo
 
 class EmailVerifyUser(GSUserInfo):
     def __init__(self, userInfo):
@@ -43,8 +44,13 @@ class EmailVerifyUserFromId(object):
         if s == queries.NOT_FOUND:
             raise VerificationIdNotFoundError(verificationId)
 
-        uid = queries.get_userId_from_verificationId(verificationId)
-        userInfo = createObject('groupserver.UserFromId', context, uid)
+        email = queries.get_email_from_verificationId(verificationId)
+        aclUsers = context.site_root().acl_users
+        user = aclUsers.get_userByEmail(email)
+        if not user:
+            raise VerificationIdNotFoundError(verificationId) # TODO
+        
+        userInfo = IGSUserInfo(user)
         return EmailVerifyUser(userInfo)
 
 EmailVerifyUserFactory = Factory(
