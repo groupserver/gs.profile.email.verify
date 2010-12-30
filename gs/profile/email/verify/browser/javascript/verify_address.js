@@ -14,7 +14,7 @@ GSVerifyEmailAddress = function () {
     
     var VERIFY_ADDRESS = 'verifyemail.ajax';
     var CHECK_ADDRESS = 'verify_email.ajax';
-    var TIMEOUT_DELTA = 4000;
+    var TIMEOUT_DELTA = 2000;
     // Private methods
 
     // Public methods and properties. The "checkServer" and "checkReturn"
@@ -46,17 +46,8 @@ GSVerifyEmailAddress = function () {
             checkingMsg = '<strong>Checking</strong> ' + 
               '<code class="email">' + e + '</code>' + 
               '&#160;<img src="/++resource++anim/wait.gif"/>';
-            jQuery(statusUpdate).html(verifyingMsg);
-            setTimeout("GSVerifyEmailAddress.verifyAddress();", TIMEOUT_DELTA / 2);
-        },
-        verifyAddress: function () {
-            jQuery.ajax({
-              type: "POST",
-              url: VERIFY_ADDRESS, 
-              cache: false,
-              data: 'verificationId='+verificationId,
-              success: GSVerifyEmailAddress.checkServer});
-            jQuery(statusUpdate).html(verifyingMsg);    
+            jQuery(statusUpdate).html(checkingMsg);
+            setTimeout("GSVerifyEmailAddress.checkServer()", TIMEOUT_DELTA / 2);
         },
         checkServer: function () {
             jQuery.ajax({
@@ -72,14 +63,21 @@ GSVerifyEmailAddress = function () {
             if (verified) {
                 jQuery(statusUpdate).html(verifiedMsg);
             } else {
+                jQuery(statusUpdate).html(verifyingMsg);
                 setTimeout("GSVerifyEmailAddress.verifyAddress()",
                   TIMEOUT_DELTA);
-                setTimeout("GSVerifyEmailAddress.changeCheckingMessage()",
-                  TIMEOUT_DELTA / 2)
             }
         },
+        verifyAddress: function () {
+            jQuery.ajax({
+              type: "POST",
+              url: VERIFY_ADDRESS, 
+              cache: false,
+              data: 'verificationId='+verificationId,
+              success: GSVerifyEmailAddress.checkServer});
+        },
         changeCheckingMessage: function() {
-            jQuery(statusUpdate).html(unverifiedMsg);              
+            jQuery(statusUpdate).html(verifyingMsg);              
         }
     };
 }(); // GSVerifyEmailAddress

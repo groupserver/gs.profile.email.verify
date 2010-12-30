@@ -13,17 +13,20 @@ log = logging.getLogger(SUBSYSTEM) #@UndefinedVariable
 
 UNKNOWN      = '0'
 # verification user
-VERIFIED     = '1' # Rewritten
-ADD_VERIFY   = '2' #    "
-CLEAR_VERIFY = '3' #    "
+VERIFIED     = '1'
+ADD_VERIFY   = '2'
+CLEAR_VERIFY = '3'
+# Not implemented: currently handled by 
+#  Products.XWFMailingListManager.bounceaudit
+UNVERIFIED   = '4'
 # request verify
-REQUEST      = '5'
-REQUEST_FAIL = '6'
+REQUEST      = '5' # Not yet updated
+REQUEST_FAIL = '6' #    "    "
 # redirect
-VERIFY_LOGIN  = '7'  # Rewritten
-VERIFY_ID_400 = '8'  #    "
-VERIFY_ID_404 = '9'  #    "
-VERIFY_ID_410 = '10' #    "
+VERIFY_LOGIN  = '7'
+VERIFY_ID_400 = '8'
+VERIFY_ID_404 = '9'
+VERIFY_ID_410 = '10'
 
 
 class AuditEventFactory(object):
@@ -43,6 +46,9 @@ class AuditEventFactory(object):
                         siteInfo, instanceDatum)
         elif code == CLEAR_VERIFY:
             event = ClearVerifyEvent(context, event_id, date, userInfo,
+                        siteInfo, instanceDatum)
+        elif code == UNVERIFIED:
+            event = UnverifiedEvent(context, event_id, date, userInfo, 
                         siteInfo, instanceDatum)
         elif code == REQUEST:
             event = RequestVerifyEvent(context, event_id, date, userInfo,
