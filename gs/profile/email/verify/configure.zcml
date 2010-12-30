@@ -4,22 +4,38 @@
   xmlns:five="http://namespaces.zope.org/five"
   i18n_domain="groupserver">
 
+  <!-- Auditor -->
+  <utility 
+    factory=".audit.AuditEventFactory"
+    name="gs.profile.email.verify"
+    permission="zope.Public" />
+
   <!-- EmailVerifyUser Adapter -->
   <interface interface=".interfaces.IGSEmailVerifyUser"/>
   <adapter provides=".interfaces.IGSEmailVerifyUser"
     for="Products.CustomUserFolder.interfaces.IGSUserInfo"
     permission="zope2.Public"
     factory=".emailverifyuser.EmailVerifyUser" />
-    
-  <!-- Register the utility to get an EmailVerifyUser from a verification ID -->
+  <!-- The utility to get an EmailVerifyUser from a verification ID -->
   <class class=".emailverifyuser.EmailVerifyUserFromId">
     <implements interface=".interfaces.IGSEmailVerifyUser"/>
   </class>
-  <!-- Register the EmailVerifyUserFactory -->
+  <!-- The EmailVerifyUserFactory -->
   <utility factory=".emailverifyuser.EmailVerifyUserFactory"
     provides="zope.component.interfaces.IFactory"
     name="groupserver.EmailVerificationUser"
     permission="zope.Public"/>
+
+  <!-- Email User Adapter -->
+  <interface interface=".interfaces.IGSEmailUser"/>
+  <!-- Adapts an EmailAddress to an IGSEmailUser -->
+  <class class=".emailuser.EmailUser">
+    <implements interface=".interfaces.IGSEmailUser"/>
+  </class>
+  <!-- adapter provides=".interfaces.IGSEmailUser"
+    for="gs.profile.email.base.IEmailAddress"
+    permission="zope2.Public"
+    factory=".emailuser.EmailUser" /-->
 
   <!-- Email Verification Redirect -->
   <adapter for="Products.GSRedirect.interfaces.IGSRedirectTraversal"
@@ -43,43 +59,26 @@
     class=".errors.VerifyIdNotFound" 
     permission="zope2.Public" />
 
-  <!-- AJAX -->
-  <interface 
-    interface=".interfaces.IGSVerifyingJavaScriptContentProvider"
-    type="zope.contentprovider.interfaces.ITALNamespaceData"/>
-  <browser:resource name="verify_address.js"
-    file="browser/javascript/verify_address.js"
-    permission="zope2.Public" />
-    
-  <!-- Verify the Email Address -->
+  <!-- Verification -->
   <browser:page 
     for="Products.CustomUserFolder.interfaces.ICustomUser"
     name="verifyemail.html"
     class=".verify.VerifyEmailPage"
     template="browser/templates/verify.pt"
-    permission="zope2.Public" />
+    permission="zope2.ManageProperties" />
   <browser:page 
     for="Products.CustomUserFolder.interfaces.ICustomUser"
     name="verifyemail.ajax"
     class=".update.VerifyEmail"
     permission="zope2.ManageProperties" />
-    
-  <!-- Email User -->
-  <interface interface=".interfaces.IGSEmailUser"/>
-  <!-- Register adapter from an EmailAddress to an IGSEmailUser -->
-  <class class=".emailuser.EmailUser">
-    <implements interface=".interfaces.IGSEmailUser"/>
-  </class>
-  <!-- adapter provides=".interfaces.IGSEmailUser"
-    for="gs.profile.email.base.IEmailAddress"
-    permission="zope2.Public"
-    factory=".emailuser.EmailUser" /-->
-    
-  <!-- Register the Auditor -->
-  <utility 
-    factory=".audit.AuditEventFactory"
-    name="gs.profile.email.verify"
-    permission="zope.Public" />
+  <!-- JavaScript -->
+  <browser:resource name="verify_address.js"
+    file="browser/javascript/verify_address.js"
+    permission="zope2.Public" />
+  <!-- Content Provider for the JavaScript -->
+  <interface 
+    interface=".interfaces.IGSVerifyingJavaScriptContentProvider"
+    type="zope.contentprovider.interfaces.ITALNamespaceData"/>
     
 </configure>
 
