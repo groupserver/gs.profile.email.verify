@@ -12,7 +12,7 @@
       <tal:block metal:fill-slot="metadata">
         <meta name="author" content="OnlineGroups.Net" />
         <meta name="description" 
-          content="The password reset ID could not be found" />
+          content="The email-verification ID could not be found" />
       </tal:block>
       
     </head>

@@ -11,7 +11,7 @@
       <tal:block metal:fill-slot="metadata">
         <meta name="author" content="OnlineGroups.Net" />
         <meta name="description" 
-          content="The email verification ID was not specified" />
+          content="The email-verification ID was not specified" />
       </tal:block>
     </head>
     <body>

@@ -30,9 +30,9 @@ class EmailQuery(object):
     def clear_verification_ids(self):
         evt = self.emailVerifyTable
         u = evt.update(sa.and_(evt.c.email == self.email,
-                               evt.c.reset == None))
+                               evt.c.verified == None))
         d = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
-        u.execute(reset = d)
+        u.execute(verified = d)
 
     def unverify_address(self):
         uet = self.userEmailTable

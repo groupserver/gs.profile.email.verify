@@ -13,7 +13,7 @@ class EmailVerifyUser(GSUserInfo):
     @property
     def emailVerifyUrl(self):
         if self.__emailVerifyUrl == None:
-            self.__emailVerifyUrl = '%s/email_verify.html' % self.url
+            self.__emailVerifyUrl = '%s/verifyemail.html' % self.url
         return self.__emailVerifyUrl
     
     @property

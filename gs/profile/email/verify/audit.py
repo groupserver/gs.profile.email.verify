@@ -78,7 +78,7 @@ class VerifiedEvent(BasicAuditEvent):
 
     def __init__(self, context, id, d, userInfo, siteInfo, instanceDatum):
         BasicAuditEvent.__init__(self, context, id,  VERIFIED, d, 
-            userInfo, userInfo, siteInfo, instanceDatum, None, None, SUBSYSTEM)
+            userInfo, userInfo, siteInfo, None, instanceDatum, None, SUBSYSTEM)
     
     def __unicode__(self):
         retval = u'%s (%s) verified the email address <%s> on %s (%s).' %\
@@ -95,8 +95,9 @@ class VerifiedEvent(BasicAuditEvent):
     def xhtml(self):
         cssClass = u'audit-event gs-profile-email-verify-%s' %\
           self.code
-        retval = u'<span class="%s">Verified the address <%s>.</span>' % \
-         (cssClass, self.instanceDatum)
+        retval = u'<span class="%s">Verified the address '\
+          u'<a href="mailto:%s">%s</a>.</span>' % \
+          (cssClass, self.instanceDatum, self.instanceDatum)
         retval = u'%s (%s)' % \
           (retval, munge_date(self.context, self.date))
         return retval
@@ -108,7 +109,7 @@ class AddVerifyEvent(BasicAuditEvent):
 
     def __init__(self, context, id, d, userInfo, siteInfo, instanceDatum):
         BasicAuditEvent.__init__(self, context, id,  ADD_VERIFY, d, 
-            userInfo, userInfo, siteInfo, instanceDatum, None, None,
+            userInfo, userInfo, siteInfo, None, instanceDatum, None,
             SUBSYSTEM)
     
     def __unicode__(self):
@@ -127,8 +128,9 @@ class AddVerifyEvent(BasicAuditEvent):
     def xhtml(self):
         cssClass = u'audit-event gs-profile-email-verify-%s' %\
           self.code
-        retval = u'<span class="%s">Added a verification request for %s.</span>' % \
-          (cssClass, self.instanceDatum)
+        retval = u'<span class="%s">Added a verification request '\
+          u'for <a href="mailto:%s">%s</a>.</span>' % \
+          (cssClass, self.instanceDatum, self.instanceDatum)
         retval = u'%s (%s)' % \
           (retval, munge_date(self.context, self.date))
         return retval
@@ -140,7 +142,7 @@ class ClearVerifyEvent(BasicAuditEvent):
 
     def __init__(self, context, id, d, userInfo, siteInfo, instanceDatum):
         BasicAuditEvent.__init__(self, context, id,  CLEAR_VERIFY, d, 
-            userInfo, userInfo, siteInfo, instanceDatum, None, None,
+            userInfo, userInfo, siteInfo, None, instanceDatum, None,
             SUBSYSTEM)
     
     def __unicode__(self):
@@ -160,7 +162,8 @@ class ClearVerifyEvent(BasicAuditEvent):
         cssClass = u'audit-event gs-profile-email-verify-%s' %\
           self.code
         retval = u'<span class="%s">Cleared email verification '\
-            u'IDs for <%s>.</span>' % (cssClass, self.instanceDatum)
+          u'IDs for <a href="mailto:%s">%s</a>.</span>' % \
+          (cssClass, self.instanceDatum, self.instanceDatum)
         retval = u'%s (%s)' % \
           (retval, munge_date(self.context, self.date))
         return retval

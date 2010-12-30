@@ -45,7 +45,7 @@ class IVerifyEmail(Interface):
       
     verificationId = ASCIILine(title=u'Verification ID',
         description=u'The verification ID',
-        required=True)
+        required=False)
 
 class IRequestVerification(Interface):
     email = EmailAddress(title=u'Email Address',

@@ -1,0 +1,20 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:tal="http://xml.zope.org/namespaces/tal"
+  xmlns:metal="http://xml.zope.org/namespaces/metal"
+  metal:use-macro="context/@@groupserver_site_home_layout/page">
+  <head>
+    <title metal:fill-slot="title">
+      <span tal:replace="string:${view/label}: ${view/userInfo/name}: ${view/siteInfo/get_name}"/>
+    </title>
+  </head>
+  <body>
+    <tal:block metal:fill-slot="body"
+      tal:define="siteName view/siteInfo/get_name">
+      <h1>Verify Email</h1>
+      <p>
+        Awesome, we loaded the Verify Email page!
+      </p>
+    </tal:block>
+  </body>
+</html>
+

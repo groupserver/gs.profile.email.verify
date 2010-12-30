@@ -40,14 +40,14 @@ class EmailUser(object):
     def verifyQuery(self):
         if self.__verifyQuery == None:
             da = self.context.zsqlalchemy
-            self.__verifyQuery = VerificationQuery(da, self.userInfo)
+            self.__verifyQuery = VerificationQuery(da)
         return self.__verifyQuery
     
     @property
     def userQuery(self):
         if self.__userQuery == None:
             da = self.context.zsqlalchemy
-            self.__userQuery = EmailQuery(da, self.userInfo)
+            self.__userQuery = EmailQuery(da, self.email)
         return self.__userQuery
 
     def add_verification_id(self, verificationId):

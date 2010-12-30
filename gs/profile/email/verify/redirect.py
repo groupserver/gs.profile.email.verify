@@ -27,7 +27,8 @@ class RedirectEmailVerification(GSRedirectBase):
                     auditor.info(VERIFY_LOGIN, emailVerificationUser)
                     # Only log in when able to verify the email address
                     login(self.context, emailVerificationUser.user)
-                    uri = emailVerificationUser.emailVerifyUrl
+                    uri = '%s?verificationId=%s' % \
+                      (emailVerificationUser.emailVerifyUrl, verificationId)
                 else:
                     auditor.info(VERIFY_ID_410, emailVerificationUser, 
                         verificationId)
