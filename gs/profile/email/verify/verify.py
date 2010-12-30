@@ -9,6 +9,8 @@ class VerifyEmailPage(BrowserView):
         self.label = u'Verify Email'
         self.userInfo = IGSUserInfo(self.context)
         self.__siteInfo = None
+        self.verificationId = request.form.get('verificationId','')
+        self.email = 'admin-foo@groupsense.net'
         
     @property
     def siteInfo(self):
@@ -16,4 +18,5 @@ class VerifyEmailPage(BrowserView):
             self.__siteInfo = createObject('groupserver.SiteInfo', 
                 self.context)
         return self.__siteInfo
+    
     

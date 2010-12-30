@@ -96,8 +96,8 @@ class VerifiedEvent(BasicAuditEvent):
         cssClass = u'audit-event gs-profile-email-verify-%s' %\
           self.code
         retval = u'<span class="%s">Verified the address '\
-          u'<a href="mailto:%s">%s</a>.</span>' % \
-          (cssClass, self.instanceDatum, self.instanceDatum)
+          u'<code class="email">%s</code>.</span>' % \
+          (cssClass, self.instanceDatum)
         retval = u'%s (%s)' % \
           (retval, munge_date(self.context, self.date))
         return retval
@@ -129,8 +129,8 @@ class AddVerifyEvent(BasicAuditEvent):
         cssClass = u'audit-event gs-profile-email-verify-%s' %\
           self.code
         retval = u'<span class="%s">Added a verification request '\
-          u'for <a href="mailto:%s">%s</a>.</span>' % \
-          (cssClass, self.instanceDatum, self.instanceDatum)
+          u'for <code class="email">%s</code>.</span>' % \
+          (cssClass, self.instanceDatum)
         retval = u'%s (%s)' % \
           (retval, munge_date(self.context, self.date))
         return retval
@@ -162,8 +162,8 @@ class ClearVerifyEvent(BasicAuditEvent):
         cssClass = u'audit-event gs-profile-email-verify-%s' %\
           self.code
         retval = u'<span class="%s">Cleared email verification '\
-          u'IDs for <a href="mailto:%s">%s</a>.</span>' % \
-          (cssClass, self.instanceDatum, self.instanceDatum)
+          u'IDs for <code class="email">%s</code>.</span>' % \
+          (cssClass, self.instanceDatum)
         retval = u'%s (%s)' % \
           (retval, munge_date(self.context, self.date))
         return retval

@@ -9,11 +9,29 @@
   </head>
   <body>
     <tal:block metal:fill-slot="body"
-      tal:define="siteName view/siteInfo/get_name">
-      <h1>Verify Email</h1>
-      <p>
-        Awesome, we loaded the Verify Email page!
-      </p>
+      define="email view/email">
+      <h1>Verify Email Address</h1>
+      <span id="verifying">
+        Foo.
+      </span>
+    </tal:block>
+    <tal:block metal:fill-slot="javascript">
+      <script type="text/javascript"
+        src="/++resource++verify_address.js">&#160;</script>
+      <!-- script type="text/javascript" 
+        tal:define="email view/email;
+          verificationId view/verificationId;
+          siteName view/siteInfo/get_name"
+        tal:content="provider:groupserver.VerifyEmailJavaScript">
+        alert("I have not been replaced either.");
+      </script-->
+      <script type="text/javascript">
+        jQuery.noConflict()
+        jQuery(document).ready( function () {
+            GSVerifyEmailAddress.init('admin-foo@groupsense.net', 'foo',  
+              '#verifying', 'Example Site');
+        });
+      </script>
     </tal:block>
   </body>
 </html>

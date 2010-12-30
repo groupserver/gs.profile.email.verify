@@ -42,6 +42,14 @@
     name="email-verify-not-found.html"
     class=".errors.VerifyIdNotFound" 
     permission="zope2.Public" />
+
+  <!-- AJAX -->
+  <interface 
+    interface=".interfaces.IGSVerifyingJavaScriptContentProvider"
+    type="zope.contentprovider.interfaces.ITALNamespaceData"/>
+  <browser:resource name="verify_address.js"
+    file="browser/javascript/verify_address.js"
+    permission="zope2.Public" />
     
   <!-- Verify the Email Address -->
   <browser:page 
@@ -72,6 +80,6 @@
     factory=".audit.AuditEventFactory"
     name="gs.profile.email.verify"
     permission="zope.Public" />
-
+    
 </configure>
 

@@ -2,6 +2,7 @@
 from Products.Five import BrowserView
 from queries import VerificationQuery
 from emailuser import EmailUser
+from emailverifyuser import EmailVerifyUser 
 
 class VerifyEmail(BrowserView):
     def __init__(self, context, request):
@@ -20,5 +21,7 @@ class VerifyEmail(BrowserView):
         verificationId = self.request.form['verificationId']
         email = self.query.get_email_from_verificationId(verificationId)
         eu = EmailUser(self.context, email)
-        eu.verify_email(verificationId)
+        evu = EmailVerifyUser(eu.userInfo)
+        if evu.verificationId_current(verificationId):
+            eu.verify_email(verificationId)
         

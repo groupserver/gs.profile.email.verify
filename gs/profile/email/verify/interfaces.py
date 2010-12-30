@@ -1,6 +1,7 @@
 # coding=utf-8
+from zope.contentprovider.interfaces import IContentProvider
 from zope.interface import Interface
-from zope.schema import ASCIILine
+from zope.schema import ASCIILine, Text, TextLine
 from Products.GSProfile.emailaddress import EmailAddress
 from Products.CustomUserFolder.interfaces import IGSUserInfo
 
@@ -52,3 +53,22 @@ class IRequestVerification(Interface):
         description=u'Your email address.',
         required=True)
 
+class IGSVerifyingJavaScriptContentProvider(IContentProvider):
+    pageTemplateFileName = Text(title=u"Page Template File Name",
+      description=u'The name of the ZPT file that is used to render the '\
+        u'javascript.',
+      required=False,
+      default=u"browser/templates/verify_javascript.pt")
+    
+    verificationId = TextLine(title=u'Verification ID',
+        description=u'The verification identifier',
+        required=True)
+      
+    email = EmailAddress(title=u'Email Address',
+        description=u'Your email address.',
+        required=True)
+    
+    siteName = TextLine(title=u'Site Name',
+        description=u'The site name',
+        required=True)
+    
