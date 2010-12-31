@@ -5,7 +5,7 @@ from queries import VerificationQuery
 from Products.CustomUserFolder.userinfo import GSUserInfo
 from Products.CustomUserFolder.interfaces import IGSUserInfo
 
-class EmailVerifyUser(GSUserInfo):
+class VerifyEmailUser(GSUserInfo):
     def __init__(self, userInfo):
         GSUserInfo.__init__(self, userInfo.user)
         self.__emailVerifyUrl = self.__query = None
@@ -36,11 +36,11 @@ class VerificationIdNotFoundError(Exception):
     def __str__(self):
         return 'Could not find verification ID (%s)' % self.value
 
-class EmailVerifyUserFromId(object):
-    ''' Create an Email Verify User from a Verification ID
+class VerifyEmailUserFromId(object):
+    ''' Create a Verify Email User from a Verification ID
     
-        We do not always have an IGSUserInfo to hand when we want an 
-        email-verify user. Sometimes we do have a verification ID.'''
+        We do not always have an IGSUserInfo to hand when we want a 
+        verify-email user. Sometimes we do have a verification ID.'''
     def __call__(self, context, verificationId):
     
         da = context.zsqlalchemy
@@ -50,17 +50,16 @@ class EmailVerifyUserFromId(object):
         if s == queries.NOT_FOUND:
             raise VerificationIdNotFoundError(verificationId)
 
-        email = queries.get_email_from_verificationId(verificationId)
-        # TODO: Move get_userByEmail to gs.profile.email.base
+        userId = queries.get_userId_from_verificationId(verificationId)
         aclUsers = context.site_root().acl_users
-        user = aclUsers.get_userByEmail(email)
-        assert user, 'No user for email address %s' % email
+        user = aclUsers.getUser(userId)
+        assert user, 'No user for userId %s' % userId
         
         userInfo = IGSUserInfo(user)
-        return EmailVerifyUser(userInfo)
+        return VerifyEmailUser(userInfo)
 
-EmailVerifyUserFactory = Factory(
-                        EmailVerifyUserFromId, 
-                        'Email-Verify User from ID',
-                        'Create an email-verify user from a verification ID.')
+VerifyEmailUserFactory = Factory(
+                        VerifyEmailUserFromId, 
+                        'Verify-Email User from ID',
+                        'Create a verify-email user from a verification ID.')
 

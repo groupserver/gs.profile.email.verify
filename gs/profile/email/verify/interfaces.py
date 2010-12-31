@@ -1,13 +1,14 @@
 # coding=utf-8
 from zope.contentprovider.interfaces import IContentProvider
 from zope.interface import Interface
-from zope.schema import ASCIILine, Text, TextLine
+from zope.schema import Text, TextLine
 from Products.GSProfile.emailaddress import EmailAddress
 from Products.CustomUserFolder.interfaces import IGSUserInfo
 
-class IGSEmailUser(Interface):
-    ''' Adapts an email address to an IGSEmailUser, which can
-        request verification for, and verify, email addresses.
+class IGSEmailVerificationUser(Interface):
+    ''' Adapts a user to an IGSEmailVerificationUser, which can
+        request verification for, and verify, a particular email 
+        address.
     '''
     def add_verification_id(verificationId):
         ''' Adds the verificationId for the email address to 
@@ -27,10 +28,10 @@ class IGSEmailUser(Interface):
             email_verification table to be verified. 
         '''
 
-class IGSEmailVerifyUser(IGSUserInfo):
-    ''' Adapts a user to be able to log them in and redirect them
-        appropriately, provided the verificationId they authenticate 
-        with exists and is current. 
+class IGSVerifyEmailUser(IGSUserInfo):
+    ''' Adapts a user to be able to verify an email address
+        using a particular verificationId, provided that 
+        that verificationId exists and is current. 
     '''
     def verificationId_current(verificationId):
         ''' Returns TRUE if the verificationId exists
@@ -40,18 +41,6 @@ class IGSEmailVerifyUser(IGSUserInfo):
     def verificationId_exists(verificationId):
         ''' Returns TRUE if the verificationId exists.
         '''
-
-class IVerifyEmail(Interface):
-    """Schema for verifying the email address."""
-      
-    verificationId = ASCIILine(title=u'Verification ID',
-        description=u'The verification ID',
-        required=False)
-
-class IRequestVerification(Interface):
-    email = EmailAddress(title=u'Email Address',
-        description=u'Your email address.',
-        required=True)
 
 class IGSVerifyingJavaScriptContentProvider(IContentProvider):
     pageTemplateFileName = Text(title=u"Page Template File Name",

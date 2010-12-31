@@ -1,11 +1,13 @@
 # coding=utf-8
 from pytz import UTC
 from datetime import datetime
+from zope.component import createObject
 from zope.component.interfaces import IFactory
 from zope.interface import implements, implementedBy
 from Products.GSAuditTrail import IAuditEvent, BasicAuditEvent, \
   AuditQuery, event_id_from_data
 from Products.XWFCore.XWFUtils import munge_date
+from Products.CustomUserFolder.userinfo import userInfo_to_anchor
 
 SUBSYSTEM = 'gs.profile.email.verify'
 import logging
@@ -19,9 +21,6 @@ CLEAR_VERIFY = '3'
 # Not implemented: currently handled by 
 #  Products.XWFMailingListManager.bounceaudit
 UNVERIFIED   = '4'
-# request verify
-REQUEST      = '5' # Not yet updated
-REQUEST_FAIL = '6' #    "    "
 # redirect
 VERIFY_LOGIN  = '7'
 VERIFY_ID_400 = '8'
@@ -35,30 +34,21 @@ class AuditEventFactory(object):
     title=u'Email Verification Audit-Event Factory'
     description=u'Creates a GroupServer audit event for email address verification'
 
-    def __call__(self, context, event_id,  code, date,
-        userInfo, instanceUserInfo,  siteInfo,  groupInfo=None,
+    def __call__(self, context, event_id, code, date,
+        userInfo, instanceUserInfo, siteInfo, groupInfo=None,
         instanceDatum='', supplementaryDatum='', subsystem=''):
         if code == VERIFIED:
-            event = VerifiedEvent(context, event_id, date, userInfo, 
-                        siteInfo, instanceDatum)
+            event = VerifiedEvent(context, event_id, date, 
+                        instanceUserInfo, siteInfo, instanceDatum)
         elif code == ADD_VERIFY:
             event = AddVerifyEvent(context, event_id, date, userInfo,
-                        siteInfo, instanceDatum)
+                        instanceUserInfo, siteInfo, instanceDatum)
         elif code == CLEAR_VERIFY:
-            event = ClearVerifyEvent(context, event_id, date, userInfo,
-                        siteInfo, instanceDatum)
-        elif code == UNVERIFIED:
-            event = UnverifiedEvent(context, event_id, date, userInfo, 
-                        siteInfo, instanceDatum)
-        elif code == REQUEST:
-            event = RequestVerifyEvent(context, event_id, date, userInfo,
-                        siteInfo, instanceDatum)
-        elif code == REQUEST_FAIL:
-            event = RequestVerifyFailEvent(context, event_id, date,
-                        siteInfo, instanceDatum)
+            event = ClearVerifyEvent(context, event_id, date, 
+                        instanceUserInfo, siteInfo, instanceDatum)
         elif code == VERIFY_LOGIN:
-            event = VerifyLoginEvent(context, event_id, date, userInfo,
-                        siteInfo)
+            event = VerifyLoginEvent(context, event_id, date, 
+                        instanceUserInfo, siteInfo)
         elif code == VERIFY_ID_400:
             event = VerifyLoginNoIdEvent(context, event_id, date,
                         siteInfo)
@@ -67,7 +57,7 @@ class AuditEventFactory(object):
                         siteInfo, instanceDatum)
         elif code == VERIFY_ID_410:
             event = VerifyLoginIdUsedEvent(context, event_id, date,
-                        userInfo, siteInfo, instanceDatum)
+                        instanceUserInfo, siteInfo, instanceDatum)
         else:
             event = BasicAuditEvent(context, event_id, UNKNOWN, date, 
               userInfo, instanceUserInfo, siteInfo, groupInfo, 
@@ -113,17 +103,33 @@ class AddVerifyEvent(BasicAuditEvent):
         verification request for an email address.'''
     implements(IAuditEvent)
 
-    def __init__(self, context, id, d, userInfo, siteInfo, instanceDatum):
+    def __init__(self, context, id, d, userInfo, instanceUserInfo, 
+                 siteInfo, instanceDatum):
         BasicAuditEvent.__init__(self, context, id,  ADD_VERIFY, d, 
-            userInfo, userInfo, siteInfo, None, instanceDatum, None,
-            SUBSYSTEM)
+            userInfo, instanceUserInfo, siteInfo, None, instanceDatum, 
+            None, SUBSYSTEM)
+
+    @property
+    def adminAdded(self):
+        retval = False
+        if self.userInfo.id and self.userInfo.id!= self.instanceUserInfo.id:
+            retval = True
+        return retval
     
     def __unicode__(self):
-        retval = u'%s (%s) added a verification request for '\
-          '<%s> on %s (%s).' %\
-           (self.userInfo.name, self.userInfo.id,
-            self.instanceDatum,
-            self.siteInfo.name, self.siteInfo.id)
+        if self.adminAdded:
+            retval = u'%s (%s) added a verification request for '\
+              '<%s> for %s (%s) on %s (%s).' %\
+               (self.userInfo.name, self.userInfo.id,
+                self.instanceDatum,
+                self.instanceUserInfo.name, self.instanceUserInfo.id,
+                self.siteInfo.name, self.siteInfo.id)
+        else:
+            retval = u'%s (%s) added a verification request for '\
+              '<%s> on %s (%s).' %\
+               (self.instanceUserInfo.name, self.instanceUserInfo.id,
+                self.instanceDatum,
+                self.siteInfo.name, self.siteInfo.id)
         return retval
         
     def __str__(self):
@@ -134,9 +140,15 @@ class AddVerifyEvent(BasicAuditEvent):
     def xhtml(self):
         cssClass = u'audit-event gs-profile-email-verify-%s' %\
           self.code
-        retval = u'<span class="%s">Added a verification request '\
-          u'for <code class="email">%s</code>.</span>' % \
-          (cssClass, self.instanceDatum)
+        if self.adminAdded:
+            retval = u'<span class="%s">%s added a verification request '\
+              u'for <code class="email">%s</code>.</span>' % \
+              (cssClass, userInfo_to_anchor(self.userInfo), 
+               self.instanceDatum)
+        else:
+            retval = u'<span class="%s">Added a verification request '\
+              u'for <code class="email">%s</code>.</span>' % \
+              (cssClass, self.instanceDatum)
         retval = u'%s (%s)' % \
           (retval, munge_date(self.context, self.date))
         return retval
@@ -170,73 +182,6 @@ class ClearVerifyEvent(BasicAuditEvent):
         retval = u'<span class="%s">Cleared email verification '\
           u'IDs for <code class="email">%s</code>.</span>' % \
           (cssClass, self.instanceDatum)
-        retval = u'%s (%s)' % \
-          (retval, munge_date(self.context, self.date))
-        return retval
-
-class RequestVerifyEvent(BasicAuditEvent):
-    ''' An audit-trail event representing a person requesting a
-        password reset.'''
-    implements(IAuditEvent)
-
-    def __init__(self, context, id, d, userInfo, siteInfo,
-                    instanceDatum):
-        BasicAuditEvent.__init__(self, context, id,  REQUEST, d, 
-            userInfo, userInfo, siteInfo, None, instanceDatum, None,
-            SUBSYSTEM)
-    
-    def __unicode__(self):
-        retval = u'%s (%s) requested a password reset on %s (%s). ' \
-            u'Used the address <%s>.' %\
-            (self.userInfo.name, self.userInfo.id,
-            self.siteInfo.name, self.siteInfo.id,
-            self.instanceDatum)
-        return retval
-        
-    def __str__(self):
-        retval = unicode(self).encode('ascii', 'ignore')
-        return retval
-    
-    @property
-    def xhtml(self):
-        cssClass = u'audit-event gs-profile-email-verify-%s' %\
-          self.code
-        retval = u'<span class="%s">Requested password reset '\
-            u'using <code class="email">%s</code>.</span>' % \
-            (cssClass, self.instanceDatum)
-        retval = u'%s (%s)' % \
-          (retval, munge_date(self.context, self.date))
-        return retval
-
-class RequestVerifyFailEvent(BasicAuditEvent):
-    ''' An audit-trail event representing a person entering in an
-    unknown address in the email-verify page.'''
-    implements(IAuditEvent)
-
-    def __init__(self, context, id, d, siteInfo, instanceDatum):
-        BasicAuditEvent.__init__(self, context, id,  REQUEST_FAIL, d, 
-            None, None, siteInfo, None, instanceDatum, None,
-            SUBSYSTEM)
-    
-    def __unicode__(self):
-        retval = u'Unrecognised address <%s> was used to try and  '\
-            u'reset a password reset on %s (%s). ' %\
-            (self.instanceDatum,
-            self.siteInfo.name, self.siteInfo.id)
-        return retval
-        
-    def __str__(self):
-        retval = unicode(self).encode('ascii', 'ignore')
-        return retval
-    
-    @property
-    def xhtml(self):
-        cssClass = u'audit-event gs-profile-email-verify-%s' %\
-          self.code
-        retval = u'<span class="%s">Unrecognised address '\
-            u'<code class="email">%s</code> used to try and reset a'\
-            u'password .</span>' % \
-            (cssClass, self.instanceDatum)
         retval = u'%s (%s)' % \
           (retval, munge_date(self.context, self.date))
         return retval
@@ -370,15 +315,16 @@ class Auditor(object):
         self.queries = AuditQuery(da)
         self.factory = AuditEventFactory()
         
-    def info(self, code, userInfo='', instanceDatum = '', 
+    def info(self, code, instanceUserInfo='', instanceDatum = '', 
                 supplementaryDatum = ''):
         d = datetime.now(UTC)
-        i = userInfo and userInfo or self.siteInfo
-        eventId = event_id_from_data(i, i, self.siteInfo, code,
+        userInfo = createObject('groupserver.LoggedInUser', self.context)
+        eventId = event_id_from_data(userInfo, instanceUserInfo, 
+                    self.siteInfo, code,
                     instanceDatum, supplementaryDatum)
           
         e = self.factory(self.context, eventId,  code, d, 
-                userInfo,  userInfo, self.siteInfo, None,
+                userInfo, instanceUserInfo, self.siteInfo, None,
                 instanceDatum, supplementaryDatum, SUBSYSTEM)
           
         self.queries.store(e)

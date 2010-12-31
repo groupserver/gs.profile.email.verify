@@ -7,35 +7,53 @@
   <!-- Auditor -->
   <utility 
     factory=".audit.AuditEventFactory"
+    provides="zope.component.interfaces.IFactory"
     name="gs.profile.email.verify"
     permission="zope.Public" />
 
-  <!-- EmailVerifyUser Adapter -->
-  <interface interface=".interfaces.IGSEmailVerifyUser"/>
-  <adapter provides=".interfaces.IGSEmailVerifyUser"
+  <!-- VerifyEmailUser Adapter -->
+  <interface interface=".interfaces.IGSVerifyEmailUser"/>
+  <adapter provides=".interfaces.IGSVerifyEmailUser"
     for="Products.CustomUserFolder.interfaces.IGSUserInfo"
     permission="zope2.Public"
-    factory=".emailverifyuser.EmailVerifyUser" />
-  <!-- The utility to get an EmailVerifyUser from a verification ID -->
-  <class class=".emailverifyuser.EmailVerifyUserFromId">
-    <implements interface=".interfaces.IGSEmailVerifyUser"/>
+    factory=".verifyemailuser.VerifyEmailUser" />
+  <!-- The utility to get an VerifyEmailUser from a verification ID -->
+  <class class=".verifyemailuser.VerifyEmailUserFromId">
+    <implements interface=".interfaces.IGSVerifyEmailUser"/>
   </class>
-  <!-- The EmailVerifyUserFactory -->
-  <utility factory=".emailverifyuser.EmailVerifyUserFactory"
+  <!-- The VerifyEmailUserFactory -->
+  <utility 
+    factory=".verifyemailuser.VerifyEmailUserFactory"
     provides="zope.component.interfaces.IFactory"
     name="groupserver.EmailVerificationUser"
     permission="zope.Public"/>
 
-  <!-- Email User Adapter -->
-  <interface interface=".interfaces.IGSEmailUser"/>
-  <!-- Adapts an EmailAddress to an IGSEmailUser -->
-  <class class=".emailuser.EmailUser">
-    <implements interface=".interfaces.IGSEmailUser"/>
-  </class>
-  <!-- adapter provides=".interfaces.IGSEmailUser"
-    for="gs.profile.email.base.IEmailAddress"
+  <!-- EmailVerificationUser Adapter -->
+  <interface interface=".interfaces.IGSEmailVerificationUser"/>
+  <adapter provides=".interfaces.IGSEmailVerificationUser"
+    for="Products.CustomUserFolder.interfaces.IGSUserInfo"
     permission="zope2.Public"
-    factory=".emailuser.EmailUser" /-->
+    factory=".emailverificationuser.EmailVerificationUser" />
+  <!-- The utility to get an EmailVerificationUser from a verification ID -->
+  <class class=".emailverificationuser.EmailVerificationUserFromId">
+    <implements interface=".interfaces.IGSEmailVerificationUser"/>
+  </class>
+  <!-- The EmailVerificationUserFromId Factory -->
+  <utility 
+    factory=".emailverificationuser.EmailVerificationUserFromIdFactory"
+    provides="zope.component.interfaces.IFactory"
+    name="groupserver.EmailVerificationUserFromId"
+    permission="zope.Public"/>
+  <!-- The utility to get an EmailVerificationUser from an email address -->
+  <class class=".emailverificationuser.EmailVerificationUserFromEmail">
+    <implements interface=".interfaces.IGSEmailVerificationUser"/>
+  </class>
+  <!-- The EmailVerificationUserFromId Factory -->
+  <utility 
+    factory=".emailverificationuser.EmailVerificationUserFromEmailFactory"
+    provides="zope.component.interfaces.IFactory"
+    name="groupserver.EmailVerificationUserFromEmail"
+    permission="zope.Public"/>
 
   <!-- Email Verification Redirect -->
   <adapter for="Products.GSRedirect.interfaces.IGSRedirectTraversal"
@@ -66,15 +84,20 @@
     class=".verify.VerifyEmailPage"
     template="browser/templates/verify.pt"
     permission="zope2.ManageProperties" />
+  <!-- JavaScript -->
+  <browser:resource name="verify_address.js"
+    file="browser/javascript/verify_address.js"
+    permission="zope2.Public" />
   <browser:page 
     for="Products.CustomUserFolder.interfaces.ICustomUser"
     name="verifyemail.ajax"
     class=".update.VerifyEmail"
     permission="zope2.ManageProperties" />
-  <!-- JavaScript -->
-  <browser:resource name="verify_address.js"
-    file="browser/javascript/verify_address.js"
-    permission="zope2.Public" />
+  <browser:page 
+    for="Products.CustomUserFolder.interfaces.ICustomUser"
+    name="checkemailverified.ajax"
+    class=".viewaddressverified.AddressVerifiedView"
+    permission="zope2.ManageProperties" />
   <!-- Content Provider for the JavaScript -->
   <interface 
     interface=".interfaces.IGSVerifyingJavaScriptContentProvider"

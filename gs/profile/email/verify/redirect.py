@@ -2,7 +2,7 @@
 from zope.component import createObject
 from Products.GSRedirect.view import GSRedirectBase
 from Products.GSProfile.utils import login
-from emailverifyuser import VerificationIdNotFoundError
+from verifyemailuser import VerificationIdNotFoundError
 from audit import Auditor, VERIFY_LOGIN, VERIFY_ID_400, VERIFY_ID_404,\
     VERIFY_ID_410
 

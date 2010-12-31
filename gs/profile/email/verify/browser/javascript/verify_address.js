@@ -13,7 +13,7 @@ GSVerifyEmailAddress = function () {
     var checkingMsg = null;
     
     var VERIFY_ADDRESS = 'verifyemail.ajax';
-    var CHECK_ADDRESS = 'verify_email.ajax';
+    var CHECK_ADDRESS = 'checkemailverified.ajax';
     var TIMEOUT_DELTA = 2000;
     // Private methods
 
