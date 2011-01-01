@@ -319,6 +319,7 @@ class Auditor(object):
                 supplementaryDatum = ''):
         d = datetime.now(UTC)
         userInfo = createObject('groupserver.LoggedInUser', self.context)
+        instanceUserInfo = instanceUserInfo and instanceUserInfo or userInfo 
         eventId = event_id_from_data(userInfo, instanceUserInfo, 
                     self.siteInfo, code,
                     instanceDatum, supplementaryDatum)
