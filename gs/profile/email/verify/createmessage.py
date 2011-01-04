@@ -41,9 +41,17 @@ def create_verification_message(userInfo, siteInfo, toAddr, fromAddr, verificati
     text = MIMEText(t.strip().encode(utf8), 'plain', utf8)
     container.attach(text)
 
+    hb = 'We received a request to add the email address '\
+        '<a href="mailto:%s">%s</a> '\
+        'to your profile on %s. To verify that you control this '\
+        'email address, please click the following link.' % \
+         (toAddr, toAddr, siteInfo.name)
+    hbody = '\n'.join(wrapper.wrap(hb))
+    d['hbody'] = hbody
+    
     h = u'''<p><strong>Hi there!</strong></p>
 
-<p>%(body)s</p>
+<p>%(hbody)s</p>
 <pre>
   <a href="%(verificationUrl)s">%(verificationUrl)s</a>
 </pre>

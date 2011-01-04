@@ -42,13 +42,13 @@
             &#8212;  has already been used.
             You can either</p>
           <ul tal:condition="view/loggedInUser/anonymous">
-            <li><a href="/login.html?came_from=/">Log in</a> or</li>
+            <li><a href="/login.html?came_from=/">Log in</a>, or</li>
             <li><a href="/reset_password.html">Reset your password.</a>
           </ul>
           <ul tal:condition="not:view/loggedInUser/anonymous">
             <li><a href="/">View the <strong>homepage</strong></a> of 
               <span class="site" tal:content="view/siteInfo/name">this
-                site</span></li>
+                site</span>, or</li>
             <li><a href="#"
               tal:attributes="href view/loggedInUser/url">View your
                 <strong>profile,</strong></a> which lists all your
