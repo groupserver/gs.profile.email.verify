@@ -47,7 +47,7 @@ GSVerifyEmailAddress = function () {
               '<code class="email">' + e + '</code>' + 
               '&#160;<img src="/++resource++anim/wait.gif"/>';
             jQuery(statusUpdate).html(checkingMsg);
-            setTimeout("GSVerifyEmailAddress.checkServer()", TIMEOUT_DELTA / 2);
+            setTimeout("GSVerifyEmailAddress.checkServer()", TIMEOUT_DELTA);
         },
         checkServer: function () {
             jQuery.ajax({
