@@ -17,7 +17,7 @@
     </tal:block>
     <tal:block metal:fill-slot="javascript">
       <script type="text/javascript"
-        src="/++resource++verify_address.js">&#160;</script>
+        src="/++resource++verify_address-20110105.js">&#160;</script>
       <script type="text/javascript" 
         tal:define="email view/email;
           verificationId view/verificationId;
