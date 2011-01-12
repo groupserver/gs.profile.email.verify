@@ -94,7 +94,8 @@ class EmailVerificationUser(object):
           'one of CURRENT, VERIFIED or NOT_FOUND.' % verificationId
 
         self.userQuery.verify_address(verificationId)
-        self.auditor.info(VERIFIED, self.userInfo, self.email)
+        self.auditor.info(VERIFIED, self.userInfo, self.email, 
+                          verificationId)
         self.clear_verification_ids()
     
     def clear_verification_ids(self):

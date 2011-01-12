@@ -39,7 +39,8 @@ class AuditEventFactory(object):
         instanceDatum='', supplementaryDatum='', subsystem=''):
         if code == VERIFIED:
             event = VerifiedEvent(context, event_id, date, 
-                        instanceUserInfo, siteInfo, instanceDatum)
+                        instanceUserInfo, siteInfo, instanceDatum,
+                        supplementaryDatum)
         elif code == ADD_VERIFY:
             event = AddVerifyEvent(context, event_id, date, userInfo,
                         instanceUserInfo, siteInfo, instanceDatum)
@@ -72,15 +73,18 @@ class VerifiedEvent(BasicAuditEvent):
     ''' An audit-trail event representing a person verifying an email address.'''
     implements(IAuditEvent)
 
-    def __init__(self, context, id, d, userInfo, siteInfo, instanceDatum):
+    def __init__(self, context, id, d, userInfo, siteInfo, instanceDatum, supplementaryDatum):
         BasicAuditEvent.__init__(self, context, id,  VERIFIED, d, 
-            userInfo, userInfo, siteInfo, None, instanceDatum, None, SUBSYSTEM)
+            userInfo, userInfo, siteInfo, None, instanceDatum, 
+            supplementaryDatum, SUBSYSTEM)
     
     def __unicode__(self):
-        retval = u'%s (%s) verified the email address <%s> on %s (%s).' %\
+        retval = u'%s (%s) verified the email address <%s> on %s (%s) '\
+          u'using the verification code %s.' %\
            (self.userInfo.name, self.userInfo.id,
             self.instanceDatum,
-            self.siteInfo.name, self.siteInfo.id)
+            self.siteInfo.name, self.siteInfo.id,
+            self.supplementaryDatum)
         return retval
         
     def __str__(self):
