@@ -6,6 +6,7 @@ from zope.interface import implements
 from Products.XWFCore.XWFUtils import convert_int2b62, get_support_email
 from Products.CustomUserFolder.interfaces import IGSUserInfo
 from gs.profile.notify.notifyuser import NotifyUser
+from gs.profile.email.base.emailuser import EmailUser 
 from verifyemailuser import VerificationIdNotFoundError
 from queries import EmailQuery, VerificationQuery
 from audit import Auditor, VERIFIED, ADD_VERIFY, CLEAR_VERIFY
@@ -23,12 +24,19 @@ class EmailVerificationUser(object):
         self.userInfo = userInfo
         self.email = email
         
+        self.__emailUser = None
         self.__auditor = self.__siteInfo = None
         self.__verifyQuery = self.__userQuery = None
         
-        assert email in userInfo.user.get_emailAddresses(), \
+        assert email in self.emailUser.get_addresses(), \
           'Address %s does not belong to %s (%s)' %\
            (email, userInfo.name, userInfo.id)
+
+    @property
+    def emailUser(self):
+        if self.__emailUser == None:
+            self.__emailUser = EmailUser(self.context, self.userInfo)
+        return self.__emailUser
 
     @property
     def auditor(self):
@@ -119,9 +127,10 @@ class EmailVerificationUserFromId(object):
         user = aclUsers.getUser(userId)
         assert user, 'No user for userId %s' % userId
         userInfo = IGSUserInfo(user)
+        emailUser = EmailUser(context, userInfo)
         
         email = queries.get_email_from_verificationId(verificationId)
-        assert email in user.get_emailAddresses(), \
+        assert email in emailUser.get_addresses(), \
           'Address %s does not belong to %s (%s)' %\
           (email, userInfo.name, userInfo.id)
 

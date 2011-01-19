@@ -2,7 +2,7 @@
 from zope.contentprovider.interfaces import IContentProvider
 from zope.interface import Interface
 from zope.schema import Text, TextLine
-from Products.GSProfile.emailaddress import EmailAddress
+from gs.profile.email.base.emailaddress import EmailAddress
 from Products.CustomUserFolder.interfaces import IGSUserInfo
 
 class IGSEmailVerificationUser(Interface):
