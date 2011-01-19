@@ -64,7 +64,7 @@ class VerificationQuery(object):
         if email:
             uet = self.userEmailTable
             s = uet.select()
-            s.append_whereclause(sa.func.lower(uet.c.email) == email)
+            s.append_whereclause(sa.func.lower(uet.c.email) == email.lower())
             r = s.execute().fetchone()
             retval = r and r['user_id'] or ''
             assert retval, 'No userId in user_email table for '\
