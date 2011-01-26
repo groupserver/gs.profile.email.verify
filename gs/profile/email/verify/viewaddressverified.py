@@ -16,7 +16,7 @@ class AddressVerifiedView(BrowserView):
         assert hasattr(self.request, 'form'), 'No form in request'
         assert 'email' in self.request.form.keys(), 'No email in form'
         email = self.request.form['email']
-        eu = createObject('groupserver.EmailUserFromEmailAddressFactory', 
+        eu = createObject('groupserver.EmailUserFromEmailAddress', 
                           self.context, email)
         verified = eu.is_address_verified(email)
         retval = verified and '1' or '0'

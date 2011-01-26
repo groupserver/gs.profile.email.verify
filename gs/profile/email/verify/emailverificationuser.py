@@ -156,3 +156,8 @@ EmailVerificationUserFromEmailFactory = Factory(
         'Email-Verification User from Email',
         'Create an email-verification user from an email address.')
 
+class EmailVerificationUserFromUser(object):
+    def __call__(self, context, user, email):
+        userInfo = IGSUserInfo(user)
+        return EmailVerificationUser(context, userInfo, email)
+     
