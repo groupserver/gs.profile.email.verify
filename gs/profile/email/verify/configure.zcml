@@ -1,107 +1,117 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<configure xmlns="http://namespaces.zope.org/zope"
+<configure 
+  xmlns="http://namespaces.zope.org/zope"
   xmlns:browser="http://namespaces.zope.org/browser"
   xmlns:five="http://namespaces.zope.org/five"
   i18n_domain="groupserver">
 
   <!-- Auditor -->
-  <utility 
+  <utility
+    name="gs.profile.email.verify" 
     factory=".audit.AuditEventFactory"
     provides="zope.component.interfaces.IFactory"
-    name="gs.profile.email.verify"
-    permission="zope.Public" />
+    permission="zope.Public" 
+  />
 
   <!-- VerifyEmailUser Adapter -->
   <interface interface=".interfaces.IGSVerifyEmailUser"/>
-  <adapter provides=".interfaces.IGSVerifyEmailUser"
+  <adapter 
     for="Products.CustomUserFolder.interfaces.IGSUserInfo"
+    factory=".verifyemailuser.VerifyEmailUser"
+    provides=".interfaces.IGSVerifyEmailUser"
     permission="zope2.Public"
-    factory=".verifyemailuser.VerifyEmailUser" />
+  />
   <!-- The utility to get an VerifyEmailUser from a verification ID -->
   <class class=".verifyemailuser.VerifyEmailUserFromId">
     <implements interface=".interfaces.IGSVerifyEmailUser"/>
   </class>
   <!-- The VerifyEmailUserFactory -->
-  <utility 
+  <utility
+    name="groupserver.EmailVerificationUser" 
     factory=".verifyemailuser.VerifyEmailUserFactory"
     provides="zope.component.interfaces.IFactory"
-    name="groupserver.EmailVerificationUser"
-    permission="zope.Public"/>
+    permission="zope.Public"
+  />
 
   <!-- EmailVerificationUser Adapter -->
   <interface interface=".interfaces.IGSEmailVerificationUser"/>
-  <adapter provides=".interfaces.IGSEmailVerificationUser"
-    for="Products.CustomUserFolder.interfaces.IGSUserInfo"
+  <adapter 
+    factory=".emailverificationuser.EmailVerificationUser"
+    provides=".interfaces.IGSEmailVerificationUser"
     permission="zope2.Public"
-    factory=".emailverificationuser.EmailVerificationUser" />
+  />
   <!-- The utility to get an EmailVerificationUser from a verification ID -->
   <class class=".emailverificationuser.EmailVerificationUserFromId">
     <implements interface=".interfaces.IGSEmailVerificationUser"/>
   </class>
   <!-- The EmailVerificationUserFromId Factory -->
-  <utility 
+  <utility
+    name="groupserver.EmailVerificationUserFromId" 
     factory=".emailverificationuser.EmailVerificationUserFromIdFactory"
     provides="zope.component.interfaces.IFactory"
-    name="groupserver.EmailVerificationUserFromId"
-    permission="zope.Public"/>
+    permission="zope.Public"
+  />
   <!-- The utility to get an EmailVerificationUser from an email address -->
   <class class=".emailverificationuser.EmailVerificationUserFromEmail">
     <implements interface=".interfaces.IGSEmailVerificationUser"/>
   </class>
   <!-- The EmailVerificationUserFromId Factory -->
-  <utility 
+  <utility
+    name="groupserver.EmailVerificationUserFromEmail" 
     factory=".emailverificationuser.EmailVerificationUserFromEmailFactory"
     provides="zope.component.interfaces.IFactory"
-    name="groupserver.EmailVerificationUserFromEmail"
-    permission="zope.Public"/>
+    permission="zope.Public"
+  />
 
   <!-- Email Verification Redirect -->
-  <adapter for="Products.GSRedirect.interfaces.IGSRedirectTraversal"
+  <adapter
+    name="verify" 
+    for="Products.GSRedirect.interfaces.IGSRedirectTraversal"
     factory=".redirect.RedirectEmailVerification"
     provides="Products.GSRedirect.interfaces.IGSRedirect"
-    name="verify" />
+  />
   <!-- Email Verification Error Pages -->
-  <browser:page 
+  <browser:page
+    name="email-verify-no-id.html" 
     for="Products.GSContent.interfaces.IGSSiteFolder"
-    name="email-verify-no-id.html"
     class=".errors.VerifyNoId" 
     permission="zope2.Public" />
-  <browser:page 
+  <browser:page
+    name="email-verify-used.html" 
     for="Products.GSContent.interfaces.IGSSiteFolder"
-    name="email-verify-used.html"
     class=".errors.VerifyIdUsed" 
     permission="zope2.Public" />
-  <browser:page 
+  <browser:page
+    name="email-verify-not-found.html" 
     for="Products.GSContent.interfaces.IGSSiteFolder"
-    name="email-verify-not-found.html"
     class=".errors.VerifyIdNotFound" 
     permission="zope2.Public" />
 
   <!-- Verification -->
-  <browser:page 
+  <browser:page
+    name="verifyemail.html" 
     for="Products.CustomUserFolder.interfaces.ICustomUser"
-    name="verifyemail.html"
     class=".verify.VerifyEmailPage"
     template="browser/templates/verify.pt"
     permission="zope2.ManageProperties" />
   <!-- JavaScript -->
-  <browser:resource name="verify_address-20110105.js"
+  <browser:resource 
+    name="verify_address-20110105.js"
     file="browser/javascript/verify_address.js"
     permission="zope2.Public" />
   <browser:page 
-    for="Products.CustomUserFolder.interfaces.ICustomUser"
     name="verifyemail.ajax"
+    for="Products.CustomUserFolder.interfaces.ICustomUser"
     class=".update.VerifyEmail"
     permission="zope2.ManageProperties" />
-  <browser:page 
+  <browser:page
+    name="checkemailverified.ajax" 
     for="Products.CustomUserFolder.interfaces.ICustomUser"
-    name="checkemailverified.ajax"
     class=".viewaddressverified.AddressVerifiedView"
     permission="zope2.ManageProperties" />
   <!-- Content Provider for the JavaScript -->
   <interface 
     interface=".interfaces.IGSVerifyingJavaScriptContentProvider"
     type="zope.contentprovider.interfaces.ITALNamespaceData"/>
-    
 </configure>
 

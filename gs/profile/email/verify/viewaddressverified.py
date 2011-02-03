@@ -1,4 +1,5 @@
 # coding=utf-8
+from zope.component import createObject
 from Products.Five import BrowserView
 
 class AddressVerifiedView(BrowserView):
@@ -15,7 +16,9 @@ class AddressVerifiedView(BrowserView):
         assert hasattr(self.request, 'form'), 'No form in request'
         assert 'email' in self.request.form.keys(), 'No email in form'
         email = self.request.form['email']
-        verified = self.context.emailAddress_isVerified(email)
+        eu = createObject('groupserver.EmailUserFromEmailAddress', 
+                          self.context, email)
+        verified = eu.is_address_verified(email)
         retval = verified and '1' or '0'
         return retval
 
