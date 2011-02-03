@@ -1,8 +1,9 @@
 # coding=utf-8
 import time, md5
-from zope.component import createObject
+from zope.component import createObject, adapts
 from zope.component.factory import Factory
-from zope.interface import implements
+from zope.interface import implements, Interface
+from zope.schema.interfaces import IASCIILine
 from Products.XWFCore.XWFUtils import convert_int2b62, get_support_email
 from Products.CustomUserFolder.interfaces import IGSUserInfo
 from gs.profile.notify.notifyuser import NotifyUser
@@ -15,6 +16,7 @@ from interfaces import IGSEmailVerificationUser
 
 class EmailVerificationUser(object):
     implements(IGSEmailVerificationUser)
+    adapts(Interface, IGSUserInfo, IASCIILine)
     """ Adapts a userInfo and one of their email addresses  
         to an IGSEmailVerificationUser, which can request 
         verification for, and verify, that email address. 
@@ -156,8 +158,8 @@ EmailVerificationUserFromEmailFactory = Factory(
         'Email-Verification User from Email',
         'Create an email-verification user from an email address.')
 
-class EmailVerificationUserFromUser(object):
-    def __call__(self, context, user, email):
+class EmailVerificationUserFromUser(EmailVerificationUser):
+    implements(IGSEmailVerificationUser)
+    def __init__(self, context, user, email):
         userInfo = IGSUserInfo(user)
-        return EmailVerificationUser(context, userInfo, email)
-     
+        EmailVerificationUser.__init__(context, userInfo, email)

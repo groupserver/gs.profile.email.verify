@@ -36,7 +36,6 @@
   <!-- EmailVerificationUser Adapter -->
   <interface interface=".interfaces.IGSEmailVerificationUser"/>
   <adapter 
-    for="Products.CustomUserFolder.interfaces.IGSUserInfo"
     factory=".emailverificationuser.EmailVerificationUser"
     provides=".interfaces.IGSEmailVerificationUser"
     permission="zope2.Public"
