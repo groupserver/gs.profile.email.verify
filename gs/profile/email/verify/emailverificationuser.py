@@ -162,4 +162,4 @@ class EmailVerificationUserFromUser(EmailVerificationUser):
     implements(IGSEmailVerificationUser)
     def __init__(self, context, user, email):
         userInfo = IGSUserInfo(user)
-        EmailVerificationUser.__init__(context, userInfo, email)
+        EmailVerificationUser.__init__(self, context, userInfo, email)
