@@ -1,4 +1,5 @@
 # coding=utf-8
+from urllib import quote
 from zope.component import createObject
 from Products.Five import BrowserView
 from Products.CustomUserFolder.interfaces import IGSUserInfo
@@ -10,7 +11,8 @@ class VerifyEmailPage(BrowserView):
         self.label = u'Verify Email'
         self.userInfo = IGSUserInfo(self.context)
         self.verificationId = request.form.get('verificationId','')
-        self.__siteInfo = self.__query = self.__email = None
+        self.__email = self.__quotedEmail = None
+        self.__siteInfo = self.__query = None
 
     @property
     def email(self):
@@ -18,6 +20,13 @@ class VerifyEmailPage(BrowserView):
             self.__email = \
               self.query.get_email_from_verificationId(self.verificationId)
         return self.__email
+    
+    @property
+    def quotedEmail(self):
+        if self.__quotedEmail == None:
+            self.__quotedEmail = \
+              self.__quotedEmail = quote(self.email)
+        return self.__quotedEmail
     
     @property
     def query(self):

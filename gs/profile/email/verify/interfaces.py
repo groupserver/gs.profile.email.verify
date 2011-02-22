@@ -48,13 +48,17 @@ class IGSVerifyingJavaScriptContentProvider(IContentProvider):
         u'javascript.',
       required=False,
       default=u"browser/templates/verify_javascript.pt")
+
+    email = EmailAddress(title=u'Email Address',
+        description=u'Your email address.',
+        required=True)
+    
+    quotedEmail = EmailAddress(title=u'Quoted Email Address',
+        description=u'Your email address, quoted.',
+        required=True)
     
     verificationId = TextLine(title=u'Verification ID',
         description=u'The verification identifier',
-        required=True)
-      
-    email = EmailAddress(title=u'Email Address',
-        description=u'Your email address.',
         required=True)
     
     siteName = TextLine(title=u'Site Name',

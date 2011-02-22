@@ -4,6 +4,7 @@ GSVerifyEmailAddress = function () {
 
     // Private variables
     var email = null;
+    var quotedEmail = null;
     var verificationId = null;
     var statusUpdate = null;
     var siteName = null;
@@ -20,17 +21,19 @@ GSVerifyEmailAddress = function () {
     // Public methods and properties. The "checkServer" and "checkReturn"
     // methods have to be public, due to oddities with "setTimeout".
     return {
-        init: function (e, v, s, n) {
+        init: function (e, q, v, s, n) {
             /* Add the address-checking code to the correct widgets
             
             ARGUMENTS
               e:  String containing the email address
+              q:  String containing the email address, quoted with urllib
               v:  String containing the verification id
               s:  String containing the selector for the status-update
                   container.
               n:  String containing the site name
             */
             email = e;
+            quotedEmail = q;
             verificationId = v;
             statusUpdate = s;
             siteName = n;
@@ -54,7 +57,7 @@ GSVerifyEmailAddress = function () {
               type: "POST",
               url: CHECK_ADDRESS, 
               cache: false,
-              data: 'email='+email,
+              data: 'email='+quotedEmail,
               success: GSVerifyEmailAddress.checkReturn});
             jQuery(statusUpdate).html(checkingMsg);
         },
