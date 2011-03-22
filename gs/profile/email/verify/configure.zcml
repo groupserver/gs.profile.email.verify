@@ -96,7 +96,7 @@
     permission="zope2.ManageProperties" />
   <!-- JavaScript -->
   <browser:resource 
-    name="verify_address-20110105.js"
+    name="verify_address-20110323.js"
     file="browser/javascript/verify_address.js"
     permission="zope2.Public" />
   <browser:page 
