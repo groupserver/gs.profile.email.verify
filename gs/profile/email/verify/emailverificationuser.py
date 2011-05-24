@@ -1,5 +1,6 @@
 # coding=utf-8
 import time, md5
+from zope.cachedescriptors.property import Lazy
 from zope.component import createObject, adapts
 from zope.component.factory import Factory
 from zope.interface import implements, Interface
@@ -25,47 +26,41 @@ class EmailVerificationUser(object):
         self.context = context
         self.userInfo = userInfo
         self.email = email
-        
-        self.__emailUser = None
-        self.__auditor = self.__siteInfo = None
-        self.__verifyQuery = self.__userQuery = None
+        self.__userQuery = None
         
         assert email in self.emailUser.get_addresses(), \
           'Address %s does not belong to %s (%s)' %\
            (email, userInfo.name, userInfo.id)
 
-    @property
+    @Lazy
     def emailUser(self):
-        if self.__emailUser == None:
-            self.__emailUser = EmailUser(self.context, self.userInfo)
-        return self.__emailUser
+        retval = EmailUser(self.context, self.userInfo)
+        return retval
 
-    @property
+    @Lazy
     def auditor(self):
-        if self.__auditor == None:
-            self.__auditor = Auditor(self.context, self.siteInfo)
-        return self.__auditor
+        retval = Auditor(self.context, self.siteInfo)
+        return retval
     
-    @property
+    @Lazy
     def siteInfo(self):
-        if self.__siteInfo == None:
-            self.__siteInfo = \
-              createObject('groupserver.SiteInfo', self.context)
-        return self.__siteInfo
-        
-    @property
-    def verifyQuery(self):
-        if self.__verifyQuery == None:
-            da = self.context.zsqlalchemy
-            self.__verifyQuery = VerificationQuery(da)
-        return self.__verifyQuery
+        retval = createObject('groupserver.SiteInfo', self.context)
+        return retval
     
-    @property
+    @Lazy
+    def da(self):
+        retval = self.context.zsqlalchemy
+        return retval
+        
+    @Lazy
+    def verifyQuery(self):
+        retval = VerificationQuery(self.da)
+        return retval
+    
+    @Lazy
     def userQuery(self):
-        if self.__userQuery == None:
-            da = self.context.zsqlalchemy
-            self.__userQuery = EmailQuery(da, self.email)
-        return self.__userQuery
+        retval = EmailQuery(self.da, self.email)
+        return retval
 
     def send_verification_message(self):
         verificationId = self.create_verification_id()
@@ -104,9 +99,17 @@ class EmailVerificationUser(object):
           'one of CURRENT, VERIFIED or NOT_FOUND.' % verificationId
 
         self.userQuery.verify_address(verificationId)
+        self.possibly_set_delivery()
         self.auditor.info(VERIFIED, self.userInfo, self.email, 
                           verificationId)
         self.clear_verification_ids()
+    
+    def possibly_set_delivery(self):
+        if len(self.emailUser.get_delivery_addresses()) == 0:
+            self.emailUser.set_delivery(self.email)
+        m = 'No delivery addresses after setting <%s> for delivery'%\
+                self.email
+        assert len(self.emailUser.get_delivery_addresses()) != 0, m
     
     def clear_verification_ids(self):
         self.userQuery.clear_verification_ids()
