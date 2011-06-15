@@ -39,10 +39,12 @@ GSVerifyEmailAddress = function () {
             siteName = n;
             unverifiedMsg = 'The email address <code class="email">' + e + 
               '</code> is <strong>not verified</strong>.';
-            verifiedMsg = 'The email address <code class="email">' + e + 
+            verifiedMsg = '<p>The email address <code class="email">' + e + 
               '</code> has been <strong>verified</strong>. You can ' + 
               'use this address to send messages to your groups, ' +
-              'receive messages from groups, and log in to ' + n + '.';
+              'receive messages from groups, and log in to ' + n + '.</p>'+
+              '<p>You should now <strong>close</strong> this page before '+
+              'returning to '+siteName+'.</p>';
             verifyingMsg = '<strong>Verifying</strong> ' + 
               '<code class="email">' + e + '</code>' + 
               '&#160;<img src="/++resource++anim/wait.gif"/>';
