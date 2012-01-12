@@ -4,19 +4,13 @@ from zope.cachedescriptors.property import Lazy
 from gs.profile.notify.sender import MessageSender
 UTF8 = 'utf-8'
 
-class NotifyNewMember(object):
-    textTemplateName = 'new-member-msg.txt'
-    htmlTemplateName = 'new-member-msg.html'
+class NotifyUser(object):
+    textTemplateName = 'verification-mesg.txt'
+    htmlTemplateName = 'verification-mesg.html'
     
-    def __init__(self, context, request):
-        self.context = context
+    def __init__(self, user, request):
+        self.context = self.user = user
         self.request = request
-
-    @Lazy
-    def groupInfo(self):
-        retval = createObject('groupserver.GroupInfo', self.context)
-        assert retval, 'Could not create the GroupInfo from %s' % self.context
-        return retval
 
     @Lazy
     def textTemplate(self):
@@ -32,10 +26,12 @@ class NotifyNewMember(object):
         assert retval
         return retval
         
-    def notify(self, userInfo):
-        subject = (u'Welcome to %s' % (self.groupInfo.name).encode(UTF8))
-        text = self.textTemplate(userInfo=userInfo)
-        html = self.htmlTemplate(userInfo=userInfo)
+    def notify(self, userInfo, emailAddress, verifyLink):
+        subject = u'Verify your email address (action required)'.encode(UTF8)
+        text = self.textTemplate(userInfo=userInfo, 
+                    emailAddress=emailAddress, verifyLink=verifyLink)
+        html = self.htmlTemplate(userInfo=userInfo, 
+                    emailAddress=emailAddress, verifyLink=verifyLink)
         ms = MessageSender(self.context, userInfo)
-        ms.send_message(subject, text, html)
+        ms.send_message(subject, text, html, toAddresses=[emailAddress])
 
