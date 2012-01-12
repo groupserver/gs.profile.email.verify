@@ -14,6 +14,7 @@ from queries import EmailQuery, VerificationQuery
 from audit import Auditor, VERIFIED, ADD_VERIFY, CLEAR_VERIFY
 from createmessage import create_verification_message
 from interfaces import IGSEmailVerificationUser
+from notify import NotifyUser
 
 class EmailVerificationUser(object):
     implements(IGSEmailVerificationUser)
@@ -63,6 +64,7 @@ class EmailVerificationUser(object):
         return retval
 
     def send_verification_message(self):
+        # TODO: Depricate
         verificationId = self.create_verification_id()
         self.add_verification_id(verificationId)
 
@@ -71,6 +73,13 @@ class EmailVerificationUser(object):
         msg = create_verification_message(self.userInfo, self.siteInfo,
                 self.email, fromAddr, verificationId)
         notifyUser.send_message(msg, self.email, fromAddr)
+
+    def send_verification(self, request):
+        verificationId = self.create_verification_id()
+        self.add_verification_id(verificationId)
+        notifier = NotifyUser(self.context, request)
+        link = '%sr/verify/%s' % (self.siteInfo.url, verificationId)
+        notifier.notify(self.userInfo, self.email, link)
 
     def create_verification_id(self):
         # Let us hope that the verification ID *is* unique
