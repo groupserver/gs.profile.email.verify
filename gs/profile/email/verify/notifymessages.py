@@ -23,10 +23,10 @@ class VerifyAddress(ProfilePage):
         
 class VerifyAddressText(VerifyAddress):
     def __init__(self, context, request):
-        NotifyMemberMessage.__init__(self, context, request)
+        VerifyAddress.__init__(self, context, request)
         response = request.response
         response.setHeader("Content-Type", 'text/plain; charset=UTF-8')
-        filename = 'verify-address-%s.txt' % self.groupInfo.name
+        filename = 'verify-address-%s.txt' % self.userInfo.name
         response.setHeader('Content-Disposition',
                             'inline; filename="%s"' % filename)
 
