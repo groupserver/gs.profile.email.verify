@@ -1,4 +1,43 @@
-<tal:block>
-foo
+<tal:block
+  define="userInfo options/userInfo | view/userInfo;
+    emailAddress options/emailAddress | string:placeholder@email.address;
+    verifyLink options/verifyLink | string:${view/siteInfo/url}/r/verify/placeholder">Dear <tal:block content="userInfo/name">User</tal:block>,
+
+Click the following link to verify that you control the email address 
+<tal:block content="emailAddress">addr</tal:block>.
+
+  <tal:block content="verifyLink">URL</tal:block>
+  
+Why did I get this message?
+  Someone added the email address <tal:block content="emailAddress">addr</tal:block> 
+  to your profile on the site <tal:block content="view/siteInfo/name">this site</tal:block>. The person that
+  added the address is probably you, but some administrators can 
+  also add address to the profiles of other members.
+
+Why do I have to verify my  address?
+  We take privacy seriously. Verifications ensures that we have your 
+  correct address, and it cuts down on spam.
+  
+Can I have more than one email address?
+  You can add all your email addresses to your profile. To add other 
+  addresses visit the "Change email settings" page at
+  <tal:block content="string:${view/siteInfo/url}${view/userInfo/url}/email.html">URL</tal:block>
+
+If you have any problems or questions send us an email at
+  <tal:block content="view/siteInfo/get_support_email">this address</tal:block>
+
+Kind regards,
+  The <tal:block content="view/siteInfo/name">Site</tal:block> Team
+
+------------------------------------------------------------------------
+
+Privacy
+  <tal:block content="string:${view/siteInfo/url}/policies/privacy"/>
+
+Acceptable Use
+  <tal:block content="string:${view/siteInfo/url}/policies/aup"/>
+
+Terms of Service
+  <tal:block content="string:${view/siteInfo/url}/policies/tos"/>
 </tal:block>
 
