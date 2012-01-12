@@ -1,0 +1,14 @@
+Switch the classes below to
+  gs.profiel.email.verify.EmailVerificationUser.send_verification
+
+TODO:
+  ./Products.GSProfile/Products/GSProfile/email_settings.py (Depricated)
+  ./gs.profile.email.settings/gs/profile/email/settings/settings.py
+  ./Products.XWFMailingListManager/Products/XWFMailingListManager/XWFMailingList.py ??
+  ./abel.enrolment.base/abel/enrolment/base/enrolmentrequest.py
+
+Done
+  ./gs.profile.signup.base/gs/profile/signup/base/verifywait.py
+  ./gs.profile.signup.base/gs/profile/signup/base/request_registration.py
+  ./ogn.site.start/ogn/site/start/startsite.py
+  
