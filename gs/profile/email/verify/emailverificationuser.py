@@ -77,7 +77,7 @@ class EmailVerificationUser(object):
         verificationId = self.create_verification_id()
         self.add_verification_id(verificationId)
         notifier = Notifier(self.context, request)
-        link = '%sr/verify/%s' % (self.siteInfo.url, verificationId)
+        link = '%s/r/verify/%s' % (self.siteInfo.url, verificationId)
         notifier.notify(self.userInfo, self.email, link)
 
     def create_verification_id(self):
