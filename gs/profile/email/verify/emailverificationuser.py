@@ -7,14 +7,14 @@ from zope.interface import implements, Interface
 from zope.schema.interfaces import IASCIILine
 from Products.XWFCore.XWFUtils import convert_int2b62, get_support_email
 from Products.CustomUserFolder.interfaces import IGSUserInfo
-from gs.profile.notify.notifyuser import NotifyUser
+from gs.profile.notify.notifyuser import NotifyUser as CoreNotifyUser
 from gs.profile.email.base.emailuser import EmailUser 
 from verifyemailuser import VerificationIdNotFoundError
 from queries import EmailQuery, VerificationQuery
 from audit import Auditor, VERIFIED, ADD_VERIFY, CLEAR_VERIFY
 from createmessage import create_verification_message
 from interfaces import IGSEmailVerificationUser
-from notify import NotifyUser
+from notify import Notifier
 
 class EmailVerificationUser(object):
     implements(IGSEmailVerificationUser)
@@ -27,7 +27,6 @@ class EmailVerificationUser(object):
         self.context = context
         self.userInfo = userInfo
         self.email = email
-        self.__userQuery = None
         
         assert email in self.emailUser.get_addresses(), \
           'Address %s does not belong to %s (%s)' %\
@@ -68,7 +67,7 @@ class EmailVerificationUser(object):
         verificationId = self.create_verification_id()
         self.add_verification_id(verificationId)
 
-        notifyUser = NotifyUser(self.userInfo.user, self.siteInfo)
+        notifyUser = CoreNotifyUser(self.userInfo.user, self.siteInfo)
         fromAddr = get_support_email(self.userInfo.user, self.siteInfo.id)
         msg = create_verification_message(self.userInfo, self.siteInfo,
                 self.email, fromAddr, verificationId)
@@ -77,7 +76,7 @@ class EmailVerificationUser(object):
     def send_verification(self, request):
         verificationId = self.create_verification_id()
         self.add_verification_id(verificationId)
-        notifier = NotifyUser(self.context, request)
+        notifier = Notifier(self.context, request)
         link = '%sr/verify/%s' % (self.siteInfo.url, verificationId)
         notifier.notify(self.userInfo, self.email, link)
 

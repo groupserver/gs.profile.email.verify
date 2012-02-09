@@ -4,7 +4,7 @@ from zope.cachedescriptors.property import Lazy
 from gs.profile.notify.sender import MessageSender
 UTF8 = 'utf-8'
 
-class NotifyUser(object):
+class Notifier(object):
     textTemplateName = 'verification-mesg.txt'
     htmlTemplateName = 'verification-mesg.html'
     
