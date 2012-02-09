@@ -35,6 +35,9 @@ setup(name='gs.profile.email.verify',
         'gs.profile.notify',
         'gs.profile.email.base',
         'gs.errormesg',
+        'Products.GSRedirect',
+        'Products.CustomUserFolder',
+        'Products.GSGroup',
         # -*- Extra requirements: -*-
     ],
     entry_points="""
