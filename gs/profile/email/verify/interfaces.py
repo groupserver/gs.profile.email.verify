@@ -61,7 +61,3 @@ class IGSVerifyingJavaScriptContentProvider(IContentProvider):
         description=u'The verification identifier',
         required=True)
     
-    siteName = TextLine(title=u'Site Name',
-        description=u'The site name',
-        required=True)
-    

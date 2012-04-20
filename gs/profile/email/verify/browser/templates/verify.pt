@@ -33,8 +33,7 @@
       <script type="text/javascript" 
         tal:define="email view/email;
           quotedEmail view/quotedEmail;
-          verificationId view/verificationId;
-          siteName view/siteInfo/get_name"
+          verificationId view/verificationId;"
         tal:content="provider:groupserver.VerifyEmailJavaScript">
         alert("I have not been replaced.");
       </script>
