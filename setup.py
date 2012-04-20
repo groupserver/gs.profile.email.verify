@@ -32,6 +32,7 @@ setup(name='gs.profile.email.verify',
     zip_safe=True,
     install_requires=[
         'setuptools',
+        'gs.profile.base',
         'gs.profile.notify',
         'gs.profile.email.base',
         'gs.errormesg',
