@@ -32,7 +32,7 @@ class VerifyEmailPage(BrowserView):
     def query(self):
         if self.__query == None:
             self.__query = \
-              VerificationQuery(self.context.zsqlalchemy)
+              VerificationQuery()
         return self.__query
     
     @property

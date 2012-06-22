@@ -19,8 +19,7 @@ class VerifyEmailUser(GSUserInfo):
     @property
     def query(self):
         if self.__query == None:
-            da = self.user.zsqlalchemy
-            self.__query = VerificationQuery(da)
+            self.__query = VerificationQuery()
         return self.__query
         
     def verificationId_current(self, verificationId):
@@ -42,9 +41,7 @@ class VerifyEmailUserFromId(object):
         We do not always have an IGSUserInfo to hand when we want a 
         verify-email user. Sometimes we do have a verification ID.'''
     def __call__(self, context, verificationId):
-    
-        da = context.zsqlalchemy
-        queries = VerificationQuery(da)
+        queries = VerificationQuery()
         
         s = queries.verificationId_status(verificationId)
         if s == queries.NOT_FOUND:

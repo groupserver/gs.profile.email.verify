@@ -48,18 +48,13 @@ class EmailVerificationUser(object):
         return retval
     
     @Lazy
-    def da(self):
-        retval = self.context.zsqlalchemy
-        return retval
-        
-    @Lazy
     def verifyQuery(self):
-        retval = VerificationQuery(self.da)
+        retval = VerificationQuery()
         return retval
     
     @Lazy
     def userQuery(self):
-        retval = EmailQuery(self.da, self.email)
+        retval = EmailQuery(self.email)
         return retval
 
     def send_verification_message(self):
@@ -127,9 +122,7 @@ class EmailVerificationUserFromId(object):
     ''' Create an Email Verification User from a Verification ID.
     '''
     def __call__(self, context, verificationId):
-    
-        da = context.zsqlalchemy
-        queries = VerificationQuery(da)
+        queries = VerificationQuery()
         
         s = queries.verificationId_status(verificationId)
         if s == queries.NOT_FOUND:
