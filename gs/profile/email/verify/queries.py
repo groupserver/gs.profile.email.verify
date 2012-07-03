@@ -36,8 +36,8 @@ class EmailQuery(object):
         evt = self.emailVerifyTable
         u = evt.update(sa.and_(evt.c.email == self.email,
                                evt.c.verified == None))
-        d = {'verified_date': 
-             datetime.datetime.utcnow().replace(tzinfo=pytz.utc)}
+        now = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
+        d = {'verified': now}
 
         session = getSession()
         session.execute(u, params=d)
@@ -69,7 +69,8 @@ class VerificationQuery(object):
         session = getSession()
         r = session.execute(s).fetchone()
         retval = r and r['email'] or ''
-        assert type(retval) == str
+        assert type(retval) in (str, unicode), 'Wrong return type "%s"' % \
+            type(retval)
         return retval
     
     def get_userId_from_verificationId(self, verificationId):
@@ -85,7 +86,8 @@ class VerificationQuery(object):
             retval = r and r['user_id'] or ''
             assert retval, 'No userId in user_email table for '\
               'address %s in email_verification table' % email
-        assert type(retval) == str
+        assert type(retval) in (str, unicode), 'Wrong return type "%s"' % \
+            type(retval)
         return retval
 
     def verificationId_status(self, verificationId):
