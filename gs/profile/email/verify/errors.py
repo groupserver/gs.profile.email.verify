@@ -25,7 +25,7 @@ class VerifyIdNotFound(EmailVerifyError):
         contentType = 'text/html; charset=UTF-8'
         self.request.response.setHeader('Content-Type', contentType)
         # Return 404: Not Found
-        self.request.response.setStatus(404, lock=True)
+        self.request.response.setStatus(404)
         return self.index(self, *args, **kw)
 
 class VerifyIdUsed(EmailVerifyError):
@@ -50,7 +50,7 @@ class VerifyIdUsed(EmailVerifyError):
         contentType = 'text/html; charset=UTF-8'
         self.request.response.setHeader('Content-Type', contentType)
         # Return 410: Gone
-        self.request.response.setStatus(410, lock=True)
+        self.request.response.setStatus(410)
         return self.index(self, *args, **kw)
 
 class VerifyNoId(BaseErrorPage):
@@ -68,6 +68,6 @@ class VerifyNoId(BaseErrorPage):
         contentType = 'text/html; charset=UTF-8'
         self.request.response.setHeader('Content-Type', contentType)
         # Return 400: Bad Request
-        self.request.response.setStatus(400, lock=True)
+        self.request.response.setStatus(400)
         return self.index(self, *args, **kw)
 
