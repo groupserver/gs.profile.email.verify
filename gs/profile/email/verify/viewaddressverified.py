@@ -1,25 +1,20 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
 from urllib import unquote
 from zope.component import createObject
-from Products.Five import BrowserView
+from gs.content.base import SitePage
 
-class AddressVerifiedView(BrowserView):
-    def __init__(self, context, request):
-        assert context
-        assert request
-        self.context = context
-        self.request = request
-        
+
+class AddressVerifiedView(SitePage):
+
     def __call__(self):
         assert self.request
         assert self.context
-        
         assert hasattr(self.request, 'form'), 'No form in request'
-        assert 'email' in self.request.form.keys(), 'No email in form'
+        assert 'email' in self.request.form, 'No email in form'
+
         email = unquote(self.request.form['email'])
-        eu = createObject('groupserver.EmailUserFromEmailAddress', 
+        eu = createObject('groupserver.EmailUserFromEmailAddress',
                           self.context, email)
         verified = eu.is_address_verified(email)
-        retval = verified and '1' or '0'
+        retval = '1' if verified else '0'
         return retval
-
