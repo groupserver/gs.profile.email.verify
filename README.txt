@@ -1,3 +1,19 @@
+===========================
+``gs.profile.email.verify``
+===========================
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+The Verify Email Address page
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+:Author: `Michael JasonSmith`_
+:Contact: Michael JasonSmith <mpj17@onlinegroups.net>
+:Date: 2013-05-15
+:Organization: `GroupServer.org`_
+:Copyright: This document is licensed under a
+  `Creative Commons Attribution-Share Alike 3.0 New Zealand License`_
+  by `OnlineGroups.Net`_.
+
+
 Introduction
 ============
 
@@ -37,9 +53,9 @@ checks the ID that is part of the URL.
 Verification-User
 =================
 
-The *Email Verification User* 
-(``gs.profile.email.verify.emailverificationuser.EmailVerificationUser``) 
-is used to actually verify an email address for a user. It is normally 
+The *Email Verification User*
+(``gs.profile.email.verify.emailverificationuser.EmailVerificationUser``)
+is used to actually verify an email address for a user. It is normally
 created from a ``context``, a user-info, and an email address. It can
 create a verification-ID for an address, or verify an address.
 
@@ -49,6 +65,13 @@ factory named ``groupserver.EmailVerificationUser``. It can tell
 you if an verification ID exists, and is current. It is mostly used by
 the redirector.
 
+Resources
+=========
+
+- Code repository: https://source.iopen.net/groupserver/gs.profile.email.verify
+- Questions and comments to http://groupserver.org/groups/development
+- Report bugs at https://redmine.iopen.net/projects/groupserver
+
 ..  [#unverify] The code for unverifying email addresses (i.e. disabling 
     them after bouncing) is currently in 
     ``Products.XWFMailingListManager.bounceaudit``. It should be moved
@@ -56,3 +79,9 @@ the redirector.
 ..  [#reset] The code for resetting a password can be found in the
     ``gs.profile.password`` product.
 
+.. _GroupServer: http://groupserver.org/
+.. _GroupServer.org: http://groupserver.org/
+.. _OnlineGroups.Net: https://onlinegroups.net
+.. _Michael JasonSmith: http://groupserver.org/p/mpj17
+.. _Creative Commons Attribution-Share Alike 3.0 New Zealand License:
+   http://creativecommons.org/licenses/by-sa/3.0/nz/

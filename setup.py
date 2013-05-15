@@ -1,4 +1,4 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
 import os
 from setuptools import setup, find_packages
 from version import get_version
@@ -32,17 +32,27 @@ setup(name='gs.profile.email.verify',
     zip_safe=True,
     install_requires=[
         'setuptools',
+        'pytz',
+        'sqlalchemy',
+        'zope.cachedescriptors',
+        'zope.component',
+        'zope.interface',
+        'zope.pagetemplate',
+        'zope.schema',
+        'zope.sqlalchemy',
+        'AccessControl',
+        'Zope2',
+        'gs.content.base',
         'gs.database',
         'gs.errormesg',
         'gs.profile.base',
-        'gs.profile.notify',
         'gs.profile.email.base',
+        'gs.profile.notify',
         'Products.GSRedirect',
         'Products.CustomUserFolder',
         'Products.GSGroup',
-        # -*- Extra requirements: -*-
+        'Products.XWFCore',
     ],
     entry_points="""
     # -*- Entry points: -*-
     """,)
-
