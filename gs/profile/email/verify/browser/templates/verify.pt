@@ -8,36 +8,24 @@
     </title>
   </head>
   <body>
-    <tal:block metal:fill-slot="contextnavigation">
-      <div id="contextnavigation">&#160;</div>
-    </tal:block>
-    <tal:block metal:fill-slot="sitenavigation">
-      <div id="sitenavigation">&#160;</div>
-    </tal:block>
-    <tal:block metal:fill-slot="search">
-      <div id="searcharea">&#160;</div>
-    </tal:block>
     <tal:block metal:fill-slot="utilitylinks">
       <div id="utilitylinks">&#160;</div>
     </tal:block>
     <tal:block metal:fill-slot="body"
-      define="email view/email">
+               define="email view/email">
       <h1>Verify Email Address</h1>
-      <span id="verifying">
+      <span id="gs-profile-email-verify-status">
         Verifying the email address.
       </span>
     </tal:block>
-    <tal:block metal:fill-slot="javascript">
-      <script type="text/javascript"
-        src="/++resource++verify_address-20110616.js">&#160;</script>
-      <script type="text/javascript" 
-        tal:define="email view/email;
-          quotedEmail view/quotedEmail;
-          verificationId view/verificationId;"
-        tal:content="provider:groupserver.VerifyEmailJavaScript">
-        alert("I have not been replaced.");
-      </script>
-    </tal:block>
+    <script metal:fill-slot="javascript"
+            id="gs-profile-email-verify-js" type="text/javascript"
+            src="/++resource++gs-profile-email-verify-20130515.js"
+            tal:attributes="data-email view/email; 
+                            data-verificationId view/verificationId;
+                            data-siteName view/siteInfo/name;"
+            data-statusId="#gs-profile-email-verify-status"
+            defer="true">&#160;</script>
   </body>
 </html>
 
