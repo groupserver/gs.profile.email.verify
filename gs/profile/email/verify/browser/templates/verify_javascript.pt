@@ -1,9 +1,0 @@
-<tal:block>
-  jQuery.noConflict()
-  jQuery(document).ready( function () {
-      GSVerifyEmailAddress.init('<tal:block replace="options/view/email"/>',
-        '<tal:block replace="options/view/quotedEmail"/>',
-        '<tal:block replace="options/view/verificationId"/>',  
-        '#verifying', '<tal:block replace="options/view/siteName"/>');
-  });
-</tal:block>
