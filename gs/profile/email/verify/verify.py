@@ -12,46 +12,37 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
+from __future__ import absolute_import
 from urllib import quote
-from zope.component import createObject
-from Products.Five import BrowserView
-from Products.CustomUserFolder.interfaces import IGSUserInfo
-from queries import VerificationQuery
+from zope.cachedescriptors import Lazy
+from gs.profile.base import ProfilePage
+from .queries import VerificationQuery
 
 
-class VerifyEmailPage(BrowserView):
+class VerifyEmailPage(ProfilePage):
     def __init__(self, context, request):
-        BrowserView.__init__(self, context, request)
+        super(VerifyEmailPage, self).__init__(context, request)
         self.label = u'Verify Email'
-        self.userInfo = IGSUserInfo(self.context)
-        self.verificationId = request.form.get('verificationId', '')
+
         self.__email = self.__quotedEmail = None
         self.__siteInfo = self.__query = None
 
-    @property
+    @Lazy
+    def verificationId(self):
+        retval = self.request.form.get('verificationId', '')
+        return retval
+
+    @Lazy
     def email(self):
-        if self.__email == None:
-            self.__email = \
-              self.query.get_email_from_verificationId(self.verificationId)
-        return self.__email
+        retval = self.query.get_email_from_verificationId(self.verificationId)
+        return retval
 
-    @property
+    @Lazy
     def quotedEmail(self):
-        if self.__quotedEmail == None:
-            self.__quotedEmail = \
-              self.__quotedEmail = quote(self.email)
-        return self.__quotedEmail
+        retval = quote(self.email)
+        return retval
 
-    @property
+    @Lazy
     def query(self):
-        if self.__query == None:
-            self.__query = \
-              VerificationQuery()
-        return self.__query
-
-    @property
-    def siteInfo(self):
-        if self.__siteInfo == None:
-            self.__siteInfo = createObject('groupserver.SiteInfo',
-                self.context)
-        return self.__siteInfo
+        retval = VerificationQuery()
+        return retval

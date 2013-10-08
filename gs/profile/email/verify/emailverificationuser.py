@@ -1,4 +1,18 @@
 # -*- coding: utf-8 -*-
+##############################################################################
+#
+# Copyright © 2013 OnlineGroups.net and Contributors.
+# All Rights Reserved.
+#
+# This software is subject to the provisions of the Zope Public License,
+# Version 2.1 (ZPL).  A copy of the ZPL should accompany this distribution.
+# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY AND ALL EXPRESS OR IMPLIED
+# WARRANTIES ARE DISCLAIMED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
+# FOR A PARTICULAR PURPOSE.
+#
+##############################################################################
+from __future__ import absolute_import
 import time
 import md5
 from zope.cachedescriptors.property import Lazy
@@ -6,16 +20,16 @@ from zope.component import createObject, adapts
 from zope.component.factory import Factory
 from zope.interface import implements, Interface
 from zope.schema.interfaces import IASCIILine
+from gs.profile.email.base.emailuser import EmailUser
+from gs.profile.notify.notifyuser import NotifyUser as CoreNotifyUser
 from Products.XWFCore.XWFUtils import convert_int2b62, get_support_email
 from Products.CustomUserFolder.interfaces import IGSUserInfo
-from gs.profile.notify.notifyuser import NotifyUser as CoreNotifyUser
-from gs.profile.email.base.emailuser import EmailUser
-from verifyemailuser import VerificationIdNotFoundError
-from queries import EmailQuery, VerificationQuery
-from audit import Auditor, VERIFIED, ADD_VERIFY, CLEAR_VERIFY
-from createmessage import create_verification_message
-from interfaces import IGSEmailVerificationUser
-from notify import Notifier
+from .audit import Auditor, VERIFIED, ADD_VERIFY, CLEAR_VERIFY
+from .createmessage import create_verification_message
+from .interfaces import IGSEmailVerificationUser
+from .notify import Notifier
+from .queries import EmailQuery, VerificationQuery
+from .verifyemailuser import VerificationIdNotFoundError
 
 
 class EmailVerificationUser(object):

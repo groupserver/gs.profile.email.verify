@@ -12,28 +12,27 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
+from __future__ import absolute_import
+from zope.cachedescriptors import Lazy
 from zope.component.factory import Factory
-from queries import VerificationQuery
 from Products.CustomUserFolder.userinfo import GSUserInfo
 from Products.CustomUserFolder.interfaces import IGSUserInfo
+from .queries import VerificationQuery
 
 
 class VerifyEmailUser(GSUserInfo):
     def __init__(self, userInfo):
-        GSUserInfo.__init__(self, userInfo.user)
-        self.__emailVerifyUrl = self.__query = None
+        super(VerifyEmailUser, self).__init__(userInfo.user)
 
-    @property
+    @Lazy
     def emailVerifyUrl(self):
-        if self.__emailVerifyUrl == None:
-            self.__emailVerifyUrl = '%s/verifyemail.html' % self.url
-        return self.__emailVerifyUrl
+        retval = '{0}/verifyemail.html'.format(self.url)
+        return retval
 
-    @property
+    @Lazy
     def query(self):
-        if self.__query == None:
-            self.__query = VerificationQuery()
-        return self.__query
+        retval = VerificationQuery()
+        return retval
 
     def verificationId_current(self, verificationId):
         retval = self.query.verificationId_status(verificationId) == \

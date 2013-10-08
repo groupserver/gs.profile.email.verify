@@ -12,9 +12,10 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
+from __future__ import absolute_import
 from zope.component import createObject
 from Products.Five import BrowserView
-from verifyemailuser import VerifyEmailUser
+from .verifyemailuser import VerifyEmailUser
 
 
 class VerifyEmail(BrowserView):
