@@ -14,7 +14,7 @@
 ##############################################################################
 from __future__ import absolute_import
 from urllib import quote
-from zope.cachedescriptors import Lazy
+from zope.cachedescriptors.property import Lazy
 from gs.profile.base import ProfilePage
 from .queries import VerificationQuery
 

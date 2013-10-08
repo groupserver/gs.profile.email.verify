@@ -13,7 +13,7 @@
 #
 ##############################################################################
 from __future__ import absolute_import
-from zope.cachedescriptors import Lazy
+from zope.cachedescriptors.property import Lazy
 from zope.component.factory import Factory
 from Products.CustomUserFolder.userinfo import GSUserInfo
 from Products.CustomUserFolder.interfaces import IGSUserInfo

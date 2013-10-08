@@ -13,7 +13,7 @@
 #
 ##############################################################################
 from urllib import quote
-from zope.cachedescriptors import Lazy
+from zope.cachedescriptors.property import Lazy
 from zope.component import createObject
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
 from gs.errormesg.baseerror import BaseErrorPage
