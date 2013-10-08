@@ -14,12 +14,13 @@
 ##############################################################################
 from urllib import quote
 from zope.cachedescriptors.property import Lazy
+from gs.content.email.base import SiteEmail
 from gs.profile.base.page import ProfilePage
 from Products.GSGroup.interfaces import IGSMailingListInfo
 UTF8 = 'utf-8'
 
 
-class VerifyAddress(ProfilePage):
+class VerifyAddress(SiteEmail, ProfilePage):
     @Lazy
     def email(self):
         l = IGSMailingListInfo(self.groupInfo.groupObj)
