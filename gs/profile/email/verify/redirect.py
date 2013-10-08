@@ -1,10 +1,24 @@
-# coding=utf-8
+# -*- coding: utf-8 -*-
+##############################################################################
+#
+# Copyright © 2013 OnlineGroups.net and Contributors.
+# All Rights Reserved.
+#
+# This software is subject to the provisions of the Zope Public License,
+# Version 2.1 (ZPL).  A copy of the ZPL should accompany this distribution.
+# THIS SOFTWARE IS PROVIDED "AS IS" AND ANY AND ALL EXPRESS OR IMPLIED
+# WARRANTIES ARE DISCLAIMED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+# WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
+# FOR A PARTICULAR PURPOSE.
+#
+##############################################################################
 from zope.component import createObject
 from Products.GSRedirect.view import GSRedirectBase
 from Products.GSProfile.utils import login
 from verifyemailuser import VerificationIdNotFoundError
 from audit import Auditor, VERIFY_LOGIN, VERIFY_ID_400, VERIFY_ID_404,\
     VERIFY_ID_410
+
 
 class RedirectEmailVerification(GSRedirectBase):
     def __call__(self):
@@ -16,9 +30,9 @@ class RedirectEmailVerification(GSRedirectBase):
             verificationId = self.traverse_subpath[0]
             try:
                 emailVerificationUser = \
-                    createObject('groupserver.EmailVerificationUser', 
+                    createObject('groupserver.EmailVerificationUser',
                                     self.context, verificationId)
-            except VerificationIdNotFoundError, e:
+            except VerificationIdNotFoundError:
                 auditor.info(VERIFY_ID_404, instanceDatum=verificationId)
                 uri = '/email-verify-not-found.html?verificationId=%s' % \
                     verificationId
@@ -30,7 +44,7 @@ class RedirectEmailVerification(GSRedirectBase):
                     uri = '%s?verificationId=%s' % \
                       (emailVerificationUser.emailVerifyUrl, verificationId)
                 else:
-                    auditor.info(VERIFY_ID_410, emailVerificationUser, 
+                    auditor.info(VERIFY_ID_410, emailVerificationUser,
                         verificationId)
                     uri = '/email-verify-used.html?verificationId=%s' %\
                         verificationId
