@@ -24,9 +24,6 @@ class VerifyEmailPage(ProfilePage):
         super(VerifyEmailPage, self).__init__(context, request)
         self.label = u'Verify Email'
 
-        self.__email = self.__quotedEmail = None
-        self.__siteInfo = self.__query = None
-
     @Lazy
     def verificationId(self):
         retval = self.request.form.get('verificationId', '')
