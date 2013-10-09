@@ -107,8 +107,10 @@ class EmailVerificationUser(object):
         self.auditor.info(ADD_VERIFY, self.userInfo, self.email)
 
     def verify_email(self, verificationId):
-        assert verificationId, 'No verification ID'
+        if not verificationId:
+            raise ValueError('No verification ID')
         idStatus = self.verifyQuery.verificationId_status(verificationId)
+        # FIXME: Raise actual errors
         assert idStatus != self.verifyQuery.NOT_FOUND, \
           'Verification ID %s not found' % verificationId
         assert idStatus != self.verifyQuery.VERIFIED, \
