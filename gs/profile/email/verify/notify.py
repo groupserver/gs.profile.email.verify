@@ -25,6 +25,7 @@ class Notifier(object):
     def __init__(self, user, request):
         self.context = self.user = user
         self.request = request
+        self.oldContentType = self.request.response.getHeader('Content-Type')
 
     @Lazy
     def textTemplate(self):
@@ -48,3 +49,4 @@ class Notifier(object):
                     emailAddress=emailAddress, verifyLink=verifyLink)
         ms = MessageSender(self.context, userInfo)
         ms.send_message(subject, text, html, toAddresses=[emailAddress])
+        self.request.response.setHeader('Content-Type', self.oldContentType)
