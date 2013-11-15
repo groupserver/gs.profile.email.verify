@@ -48,7 +48,7 @@
         <dd>
           You can add all your email addresses to your profile.
           <strong>Visit</strong>
-          <a tal:attributes="href string:${view/siteInfo/url}${userInfo/url}/email.html"
+          <a tal:attributes="href string:${view/siteInfo/url}${userInfo/url}/emailsettings.html"
              href="#">the Change email settings</a> page to
           add other addresses.
         </dd>

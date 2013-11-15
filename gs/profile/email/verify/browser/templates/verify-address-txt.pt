@@ -21,7 +21,7 @@ Why do I have to verify my  address?
 Can I have more than one email address?
   You can add all your email addresses to your profile. To add other
   addresses visit the "Change email settings" page at
-  <tal:block content="string:${view/siteInfo/url}${view/userInfo/url}/email.html">URL</tal:block>
+  <tal:block content="string:${view/siteInfo/url}${view/userInfo/url}/emailsettings.html">URL</tal:block>
 
 If you have any problems or questions send us an email at
   <tal:block content="view/siteInfo/get_support_email">this address</tal:block>
