@@ -19,7 +19,7 @@
       </p>
       <p>
         <strong>Click</strong> the following link to
-        verify that you control the email address 
+        verify that you control the email address
         <code tal:content="emailAddress">addr</code>.
       </p>
       <p>
@@ -29,12 +29,12 @@
       <dl>
         <dt>Why did I get this message?</dt>
         <dd>
-          Someone added the email address 
+          Someone added the email address
           <code tal:content="emailAddress">addr</code> to your profile
           on the site
           <a tal:attributes="href view/siteInfo/url"
              href="#" tal:content="view/siteInfo/name">this site</a>.
-          The person that added the address is probably you, but 
+          The person that added the address is probably you, but
           some administrators can also add address to the profiles of
           other members.
         </dd>
@@ -48,7 +48,7 @@
         <dd>
           You can add all your email addresses to your profile.
           <strong>Visit</strong>
-          <a tal:attributes="href string:${view/siteInfo/url}${userInfo/url}/email.html" 
+          <a tal:attributes="href string:${view/siteInfo/url}${userInfo/url}/email.html"
              href="#">the Change email settings</a> page to
           add other addresses.
         </dd>
@@ -61,8 +61,8 @@
       <!--Website address-->
       <p>
         Kind regards,<br/>
-        <span>The 
-        <span tal:content="view/siteInfo/name">Site</span> 
+        <span>The
+        <span tal:content="view/siteInfo/name">Site</span>
         Team</span>
       </p>
     </div>
