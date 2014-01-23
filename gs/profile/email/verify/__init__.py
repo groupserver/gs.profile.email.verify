@@ -4,7 +4,8 @@ from AccessControl import ModuleSecurityInfo
 from AccessControl import allow_class
 #lint:disable
 from .emailverificationuser import EmailVerificationUser, \
-    EmailVerificationUserFromUser
+    EmailVerificationUserFromUser, VerificationIdExists, \
+    VerificationIdNotFound, VerificationIdUsed, NoUserForVerificationId
 #lint:enable
 
 allow_class(EmailVerificationUserFromUser)

@@ -12,7 +12,7 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
-from __future__ import absolute_import
+from __future__ import absolute_import, unicode_literals
 import time
 import md5
 from zope.cachedescriptors.property import Lazy
@@ -30,6 +30,22 @@ from .interfaces import IGSEmailVerificationUser
 from .notify import Notifier
 from .queries import EmailQuery, VerificationQuery
 from .verifyemailuser import VerificationIdNotFoundError
+
+
+class VerificationIdExists(ValueError):
+    pass
+
+
+class VerificationIdNotFound(LookupError):
+    pass
+
+
+class VerificationIdUsed(ValueError):
+    pass
+
+
+class NoUserForVerificationId(LookupError):
+    pass
 
 
 class EmailVerificationUser(object):
@@ -99,22 +115,28 @@ class EmailVerificationUser(object):
         return verificationId
 
     def add_verification_id(self, verificationId):
-        assert verificationId, 'No verificationId'
+        if not verificationId:
+            raise ValueError('No verification ID')
         idStatus = self.verifyQuery.verificationId_status(verificationId)
-        assert idStatus == self.verifyQuery.NOT_FOUND, \
-          'Email Verification ID %s exists' % verificationId
+        if idStatus != self.verifyQuery.NOT_FOUND:
+            m = 'Email Verification ID "{0}" exists'.format(verificationId)
+            raise VerificationIdExists(m)
         self.userQuery.set_verification_id(verificationId)
         self.auditor.info(ADD_VERIFY, self.userInfo, self.email)
 
     def verify_email(self, verificationId):
         if not verificationId:
             raise ValueError('No verification ID')
+
         idStatus = self.verifyQuery.verificationId_status(verificationId)
-        # FIXME: Raise actual errors
-        assert idStatus != self.verifyQuery.NOT_FOUND, \
-          'Verification ID %s not found' % verificationId
-        assert idStatus != self.verifyQuery.VERIFIED, \
-          'Verification ID %s already used' % verificationId
+
+        if idStatus == self.verifyQuery.NOT_FOUND:
+            m = 'Verification ID "{0}" not found'.format(verificationId)
+            raise VerificationIdNotFound(m)
+        if idStatus == self.verifyQuery.VERIFIED:
+            m = 'Verification ID "{0}" already used'.format(verificationId)
+            raise VerificationIdUsed(m)
+
         assert idStatus == self.verifyQuery.CURRENT, \
           'Status of email verification ID %s is not ' \
           'one of CURRENT, VERIFIED or NOT_FOUND.' % verificationId
@@ -150,7 +172,9 @@ class EmailVerificationUserFromId(object):
         userId = queries.get_userId_from_verificationId(verificationId)
         aclUsers = context.site_root().acl_users
         user = aclUsers.getUser(userId)
-        assert user, 'No user for userId %s' % userId
+        if not user:
+            m = 'No user for the verification ID "{0}"'.format(verificationId)
+            raise NoUserForVerificationId(m)
         userInfo = IGSUserInfo(user)
         emailUser = EmailUser(context, userInfo)
 
