@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright © 2013 OnlineGroups.net and Contributors.
+# Copyright © 2014 OnlineGroups.net and Contributors.
 # All Rights Reserved.
 #
 # This software is subject to the provisions of the Zope Public License,
@@ -47,10 +47,12 @@ setup(name='gs.profile.email.verify',
         'setuptools',
         'pytz',
         'sqlalchemy',
+        'zope.browserpage',  # For the <browser:page /> declaration
         'zope.cachedescriptors',
         'zope.component',
         'zope.interface',
         'zope.pagetemplate',
+        'zope.browserresource',  # For the <browser:resource /> declaration
         'zope.schema',
         'zope.sqlalchemy',
         'AccessControl',
@@ -63,9 +65,10 @@ setup(name='gs.profile.email.verify',
         'gs.profile.base',
         'gs.profile.email.base',
         'gs.profile.notify',
-        'Products.GSRedirect',
         'Products.CustomUserFolder',
+        'Products.GSAuditTrail',
         'Products.GSGroup',
+        'Products.GSRedirect',
         'Products.XWFCore',
     ],
     entry_points="""
