@@ -12,8 +12,10 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
+from __future__ import unicode_literals
 from zope.component import getMultiAdapter
 from zope.cachedescriptors.property import Lazy
+from gs.core import to_ascii
 from gs.profile.notify.sender import MessageSender
 UTF8 = 'utf-8'
 
@@ -25,7 +27,8 @@ class Notifier(object):
     def __init__(self, user, request):
         self.context = self.user = user
         self.request = request
-        self.oldContentType = self.request.response.getHeader('Content-Type')
+        h = self.request.response.getHeader('Content-Type')
+        self.oldContentType = to_ascii(h)
 
     @Lazy
     def textTemplate(self):
@@ -42,11 +45,12 @@ class Notifier(object):
         return retval
 
     def notify(self, userInfo, emailAddress, verifyLink):
-        subject = u'Verify your email address (action required)'.encode(UTF8)
+        subject = 'Verify your email address (action required)'.encode(UTF8)
         text = self.textTemplate(userInfo=userInfo,
                     emailAddress=emailAddress, verifyLink=verifyLink)
         html = self.htmlTemplate(userInfo=userInfo,
                     emailAddress=emailAddress, verifyLink=verifyLink)
         ms = MessageSender(self.context, userInfo)
         ms.send_message(subject, text, html, toAddresses=[emailAddress])
-        self.request.response.setHeader('Content-Type', self.oldContentType)
+        self.request.response.setHeader(to_ascii('Content-Type'),
+                                        self.oldContentType)

@@ -12,9 +12,10 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
+from __future__ import unicode_literals
 from urllib import quote
 from zope.cachedescriptors.property import Lazy
-from gs.content.email.base import SiteEmail
+from gs.content.email.base import SiteEmail, TextMixin
 from gs.profile.base.page import ProfilePage
 from Products.GSGroup.interfaces import IGSMailingListInfo
 UTF8 = 'utf-8'
@@ -28,8 +29,8 @@ class VerifyAddress(SiteEmail, ProfilePage):
         return retval
 
     def get_support_email(self, verificationLink, emailAddress):
-        msg = u'Hi,\n\nI received a message to verify the email '\
-          u'address <%s>,\nusing the link <%s> and...' %\
+        msg = 'Hi,\n\nI received a message to verify the email address '\
+                '<%s>,\nusing the link <%s> and...' %\
           (emailAddress, verificationLink)
         sub = quote('Verify Address')
         retval = 'mailto:%s?Subject=%s&body=%s' % \
@@ -37,11 +38,8 @@ class VerifyAddress(SiteEmail, ProfilePage):
         return retval
 
 
-class VerifyAddressText(VerifyAddress):
+class VerifyAddressText(VerifyAddress, TextMixin):
     def __init__(self, context, request):
-        VerifyAddress.__init__(self, context, request)
-        response = request.response
-        response.setHeader("Content-Type", 'text/plain; charset=UTF-8')
+        super(VerifyAddressText, self).__init__(context, request)
         filename = 'verify-address-%s.txt' % self.userInfo.name
-        response.setHeader('Content-Disposition',
-                            'inline; filename="%s"' % filename)
+        self.set_header(filename)
