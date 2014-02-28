@@ -13,7 +13,7 @@
                      emailAddress options/emailAddress | string:placeholder@example.com;
                      verifyLink options/verifyLink | string:${view/siteInfo/url}/r/verify/placeholder">
       <h2>Verify email address</h2>
-      <p style="margin: 1.385em 0 1.385em 0;">
+      <p>
         Dear
         <span tal:content="userInfo/name">User</span>,
       </p>
