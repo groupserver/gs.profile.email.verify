@@ -20,12 +20,11 @@
     </tal:block>
     <script metal:fill-slot="javascript"
             id="gs-profile-email-verify-js" type="text/javascript"
-            src="/++resource++gs-profile-email-verify-20130515.js"
-            tal:attributes="data-email view/email; 
+            src="/++resource++gs-profile-email-verify-20140408.js"
+            tal:attributes="data-email view/email;
                             data-verificationId view/verificationId;
                             data-siteName view/siteInfo/name;"
             data-statusId="#gs-profile-email-verify-status"
-            defer="true">&#160;</script>
+            defer="defer"> </script>
   </body>
 </html>
-
