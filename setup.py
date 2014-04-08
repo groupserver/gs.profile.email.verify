@@ -48,13 +48,15 @@ setup(name='gs.profile.email.verify',
         'pytz',
         'sqlalchemy',
         'zope.browserpage',  # For the <browser:page /> declaration
+        'zope.browserresource',  # For the <browser:resource /> declaration
         'zope.cachedescriptors',
         'zope.component',
         'zope.interface',
         'zope.pagetemplate',
-        'zope.browserresource',  # For the <browser:resource /> declaration
         'zope.schema',
         'zope.sqlalchemy',
+        'zope.tal',
+        'zope.tales',
         'AccessControl',
         'Zope2',
         'gs.content.base',
