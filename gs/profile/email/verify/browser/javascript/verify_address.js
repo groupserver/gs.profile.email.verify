@@ -21,6 +21,7 @@ function GSVerifyEmailAddress(email, verificationId, statusId, siteName) {
         verifiedMsg=null, 
         verifyingMsg=null,
         checkingMsg=null,
+        problemMsg=null,
         statusUpdate=null,
         VERIFY_ADDRESS='verifyemail.ajax',
         CHECK_ADDRESS='checkemailverified.ajax',
@@ -45,6 +46,7 @@ function GSVerifyEmailAddress(email, verificationId, statusId, siteName) {
         checkingMsg = '<strong>Checking</strong> ' + e + 
             '&#160;<span data-icon="&#xe619;" aria-hidden="true" '+
             'class="loading"> </span>';
+        problemMsg = '<strong>Problem</strong> with the address';
 
         statusUpdate = jQuery(statusId);
         statusUpdate.html(checkingMsg);
@@ -64,13 +66,13 @@ function GSVerifyEmailAddress(email, verificationId, statusId, siteName) {
     }
 
     function checkReturn(data, textStatus) {
-        var verified=null;
-        verified = data == '1';
-        if ( verified ) {
+        if ( data == '1' ) {
             jQuery(statusUpdate).html(verifiedMsg);
-        } else {
+        } else if (data == '0') {
             jQuery(statusUpdate).html(verifyingMsg);
             window.setTimeout(verifyAddress, TIMEOUT_DELTA);
+        } else {
+            jQuery(statusUpdate).html(problemMsg);
         }
     }
     

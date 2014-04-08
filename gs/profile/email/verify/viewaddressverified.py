@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright © 2013 OnlineGroups.net and Contributors.
+# Copyright © 2013, 2014 OnlineGroups.net and Contributors.
 # All Rights Reserved.
 #
 # This software is subject to the provisions of the Zope Public License,
@@ -12,6 +12,7 @@
 # FOR A PARTICULAR PURPOSE.
 #
 ##############################################################################
+from __future__ import unicode_literals
 from urllib import unquote
 from zope.component import createObject
 from gs.content.base import SitePage
@@ -28,6 +29,10 @@ class AddressVerifiedView(SitePage):
         email = unquote(self.request.form['email'])
         eu = createObject('groupserver.EmailUserFromEmailAddress',
                           self.context, email)
-        verified = eu.is_address_verified(email)
-        retval = '1' if verified else '0'
+        try:
+            verified = eu.is_address_verified(email)
+        except AttributeError:
+            retval = '-1'
+        else:
+            retval = '1' if verified else '0'
         return retval
