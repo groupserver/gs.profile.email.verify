@@ -1,9 +1,11 @@
 SET CLIENT_ENCODING = 'UTF8';
 SET CLIENT_MIN_MESSAGES = WARNING;
 
-CREATE TABLE EMAIL_VERIFICATION (
-    VERIFICATION_ID  TEXT                       PRIMARY KEY,
-    EMAIL            TEXT                       NOT NULL REFERENCES USER_EMAIL(EMAIL) ON DELETE CASCADE,
-    VERIFIED         TIMESTAMP WITH TIME ZONE   DEFAULT NULL
+CREATE TABLE email_verification (
+    verification_id  TEXT                       PRIMARY KEY,
+    email            TEXT                       NOT NULL 
+                                                REFERENCES USER_EMAIL(EMAIL)
+                                                ON DELETE CASCADE,
+    verified         TIMESTAMP WITH TIME ZONE   DEFAULT NULL
 );
 
