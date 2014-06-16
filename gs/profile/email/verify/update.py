@@ -14,7 +14,7 @@
 ##############################################################################
 from __future__ import absolute_import
 from zope.component import createObject
-from Products.Five import BrowserView
+from Products.Five import BrowserView  # TODO: gs.profile.base.ProfilePage
 from .verifyemailuser import VerifyEmailUser
 
 
@@ -28,6 +28,7 @@ class VerifyEmail(BrowserView):
     def __call__(self):
         assert self.request
         assert self.context
+        # FIXME: Raise an error
         assert hasattr(self.request, 'form'), 'No form in request'
         assert 'verificationId' in self.request.form.keys(), \
             'No verificationId in form'
