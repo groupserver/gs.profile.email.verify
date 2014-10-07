@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-##############################################################################
+############################################################################
 #
 # Copyright © 2013 OnlineGroups.net and Contributors.
 # All Rights Reserved.
@@ -11,8 +11,8 @@
 # WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
 # FOR A PARTICULAR PURPOSE.
 #
-##############################################################################
-from __future__ import absolute_import
+############################################################################
+from __future__ import absolute_import, unicode_literals
 from urllib import quote
 from zope.cachedescriptors.property import Lazy
 from gs.profile.base import ProfilePage
@@ -22,7 +22,7 @@ from .queries import VerificationQuery
 class VerifyEmailPage(ProfilePage):
     def __init__(self, context, request):
         super(VerifyEmailPage, self).__init__(context, request)
-        self.label = u'Verify Email'
+        self.label = 'Verify email'
 
     @Lazy
     def verificationId(self):
@@ -31,7 +31,8 @@ class VerifyEmailPage(ProfilePage):
 
     @Lazy
     def email(self):
-        retval = self.query.get_email_from_verificationId(self.verificationId)
+        retval = self.query.get_email_from_verificationId(
+            self.verificationId)
         return retval
 
     @Lazy

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-##############################################################################
+############################################################################
 #
 # Copyright © 2014 OnlineGroups.net and Contributors.
 # All Rights Reserved.
@@ -11,7 +11,7 @@
 # WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
 # FOR A PARTICULAR PURPOSE.
 #
-##############################################################################
+############################################################################
 from __future__ import absolute_import, unicode_literals
 import time
 import md5
@@ -61,8 +61,8 @@ class EmailVerificationUser(object):
         self.email = email
 
         assert email in self.emailUser.get_addresses(), \
-          'Address %s does not belong to %s (%s)' %\
-           (email, userInfo.name, userInfo.id)
+            'Address %s does not belong to %s (%s)' %\
+            (email, userInfo.name, userInfo.id)
 
     @Lazy
     def emailUser(self):
@@ -96,8 +96,9 @@ class EmailVerificationUser(object):
 
         notifyUser = CoreNotifyUser(self.userInfo.user, self.siteInfo)
         fromAddr = get_support_email(self.userInfo.user, self.siteInfo.id)
-        msg = create_verification_message(self.userInfo, self.siteInfo,
-                self.email, fromAddr, verificationId)
+        msg = create_verification_message(
+            self.userInfo, self.siteInfo, self.email, fromAddr,
+            verificationId)
         notifyUser.send_message(msg, self.email, fromAddr)
 
     def send_verification(self, request):
@@ -138,8 +139,8 @@ class EmailVerificationUser(object):
             raise VerificationIdUsed(m)
 
         assert idStatus == self.verifyQuery.CURRENT, \
-          'Status of email verification ID %s is not ' \
-          'one of CURRENT, VERIFIED or NOT_FOUND.' % verificationId
+            'Status of email verification ID %s is not ' \
+            'one of CURRENT, VERIFIED or NOT_FOUND.' % verificationId
 
         self.userQuery.verify_address(verificationId)
         self.possibly_set_delivery()
@@ -173,22 +174,23 @@ class EmailVerificationUserFromId(object):
         aclUsers = context.site_root().acl_users
         user = aclUsers.getUser(userId)
         if not user:
-            m = 'No user for the verification ID "{0}"'.format(verificationId)
-            raise NoUserForVerificationId(m)
+            m = 'No user for the verification ID "{0}"'
+            msg = m.format(verificationId)
+            raise NoUserForVerificationId(msg)
         userInfo = IGSUserInfo(user)
         emailUser = EmailUser(context, userInfo)
 
         email = queries.get_email_from_verificationId(verificationId)
         assert email in emailUser.get_addresses(), \
-          'Address %s does not belong to %s (%s)' %\
-          (email, userInfo.name, userInfo.id)
+            'Address %s does not belong to %s (%s)' %\
+            (email, userInfo.name, userInfo.id)
 
         return EmailVerificationUser(context, userInfo, email)
 
 EmailVerificationUserFromIdFactory = Factory(
-        EmailVerificationUserFromId,
-        'Email-Verification User from ID',
-        'Create an email-verification user from a verification ID.')
+    EmailVerificationUserFromId,
+    'Email-Verification User from ID',
+    'Create an email-verification user from a verification ID.')
 
 
 class EmailVerificationUserFromEmail(object):
@@ -202,9 +204,9 @@ class EmailVerificationUserFromEmail(object):
         return EmailVerificationUser(context, userInfo, email)
 
 EmailVerificationUserFromEmailFactory = Factory(
-        EmailVerificationUserFromEmail,
-        'Email-Verification User from Email',
-        'Create an email-verification user from an email address.')
+    EmailVerificationUserFromEmail,
+    'Email-Verification User from Email',
+    'Create an email-verification user from an email address.')
 
 
 class EmailVerificationUserFromUser(EmailVerificationUser):

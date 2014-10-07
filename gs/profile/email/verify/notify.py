@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-##############################################################################
+############################################################################
 #
 # Copyright © 2013, 2014 OnlineGroups.net and Contributors.
 # All Rights Reserved.
@@ -11,7 +11,7 @@
 # WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
 # FOR A PARTICULAR PURPOSE.
 #
-##############################################################################
+############################################################################
 from __future__ import unicode_literals
 from zope.component import getMultiAdapter
 from zope.cachedescriptors.property import Lazy
@@ -33,23 +33,25 @@ class Notifier(object):
     @Lazy
     def textTemplate(self):
         retval = getMultiAdapter((self.context, self.request),
-                    name=self.textTemplateName)
+                                 name=self.textTemplateName)
         assert retval
         return retval
 
     @Lazy
     def htmlTemplate(self):
         retval = getMultiAdapter((self.context, self.request),
-                    name=self.htmlTemplateName)
+                                 name=self.htmlTemplateName)
         assert retval
         return retval
 
     def notify(self, userInfo, emailAddress, verifyLink):
         subject = 'Verify your email address (action required)'.encode(UTF8)
         text = self.textTemplate(userInfo=userInfo,
-                    emailAddress=emailAddress, verifyLink=verifyLink)
+                                 emailAddress=emailAddress,
+                                 verifyLink=verifyLink)
         html = self.htmlTemplate(userInfo=userInfo,
-                    emailAddress=emailAddress, verifyLink=verifyLink)
+                                 emailAddress=emailAddress,
+                                 verifyLink=verifyLink)
         ms = MessageSender(self.context, userInfo)
         ms.send_message(subject, text, html, toAddresses=[emailAddress])
         self.request.response.setHeader(to_ascii('Content-Type'),
