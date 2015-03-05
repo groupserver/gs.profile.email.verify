@@ -1,7 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:tal="http://xml.zope.org/namespaces/tal"
-  xmlns:metal="http://xml.zope.org/namespaces/metal"
-  metal:use-macro="context/@@groupserver_layout/page">
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      metal:use-macro="context/@@groupserver_layout/page">
   <head>
     <title metal:fill-slot="title">
       <span tal:replace="string:${view/label}: ${view/userInfo/name}: ${view/siteInfo/get_name}"/>
@@ -13,14 +13,14 @@
     </tal:block>
     <tal:block metal:fill-slot="body"
                define="email view/email">
-      <h1>Verify Email Address</h1>
+      <h1>Verify email address</h1>
       <span id="gs-profile-email-verify-status">
         Verifying the email address.
       </span>
     </tal:block>
     <script metal:fill-slot="javascript"
             id="gs-profile-email-verify-js" type="text/javascript"
-            src="/++resource++gs-profile-email-verify-20140408.js"
+            src="/++resource++gs-profile-email-verify-20150305.js"
             tal:attributes="data-email view/email;
                             data-verificationId view/verificationId;
                             data-siteName view/siteInfo/name;"

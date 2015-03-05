@@ -119,7 +119,7 @@
     permission="zope2.ManageProperties" />
   <!-- JavaScript -->
   <browser:resource
-    name="gs-profile-email-verify-20140408.js"
+    name="gs-profile-email-verify-20150305.js"
     file="browser/javascript/verify_address.js"
     permission="zope2.Public" />
   <browser:page

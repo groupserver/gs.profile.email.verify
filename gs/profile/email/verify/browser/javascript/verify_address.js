@@ -58,7 +58,7 @@ function GSVerifyEmailAddress(email, verificationId, statusId, siteName) {
         d = {type: "POST",
              url: CHECK_ADDRESS, 
              cache: false,
-             data: 'email='+email,
+             data: {'email': email},
              success: checkReturn
             };
         jQuery.ajax(d);
