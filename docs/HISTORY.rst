@@ -1,6 +1,17 @@
 Changelog
 =========
 
+3.3.0 (2015-03-05)
+------------------
+
+* Handling email addresses with ``+`` characters in them, partly
+  closing `Bug 4036`_
+* Naming the reStructuredText files as such
+* Pointing at GitHub_ as the primary repository
+
+.. _Bug 4036: https://redmine.iopen.net/issues/4036
+.. _GitHub: https://github.com/groupserver/gs.profile.email.verify
+
 3.2.1 (2014-10-07)
 ------------------
 
@@ -104,3 +115,5 @@ Switching to ``strict`` mode in the JavaScript
 ------------------
 
 * Initial version
+
+..  LocalWords:  Changelog reStructuredText GitHub
