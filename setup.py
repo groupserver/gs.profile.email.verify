@@ -46,7 +46,7 @@ setup(
     author_email='alice@onlinegroups.net',
     maintainer='Michael JasonSmith',
     maintainer_email='mpj17@onlinegroups.net',
-    url='https://source.iopen.net/groupserver/gs.profile.email.verify/',
+    url='https://github.com/groupserver/gs.profile.email.verify/',
     license='ZPL 2.1',
     packages=find_packages(exclude=['ez_setup']),
     namespace_packages=['gs', 'gs.profile', 'gs.profile.email'],
