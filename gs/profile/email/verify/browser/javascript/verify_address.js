@@ -1,7 +1,9 @@
 "use strict";
 // GroupServer module for checking if email addresses are verified
 //
-// Copyright © 2011, 2012, 2013, 2014 OnlineGroups.net and Contributors.
+// Copyright © 2011, 2012, 2013, 2014, 2015 OnlineGroups.net and 
+// Contributors.
+//
 // All Rights Reserved.
 //
 // This software is subject to the provisions of the Zope Public License,
@@ -14,42 +16,25 @@
 
 jQuery.noConflict();
 
-function GSVerifyEmailAddress(email, verificationId, statusId, siteName) {
+function GSVerifyEmailAddress(email, verificationId, msgCheckingId,
+                              msgVerifyingId, msgVerifiedId, msgProblemId) {
 
     // Private variables
-    var unverifiedMsg=null,
-        verifiedMsg=null, 
+    var checkingMsg=null, 
         verifyingMsg=null,
-        checkingMsg=null,
+        verifiedMsg=null,
         problemMsg=null,
-        statusUpdate=null,
         VERIFY_ADDRESS='verifyemail.ajax',
         CHECK_ADDRESS='checkemailverified.ajax',
         TIMEOUT_DELTA=4000;
 
     // Private methods
     function init() {
-        var e=null;
-        e = '<code class="email">' + email + '</code>';
-        unverifiedMsg = 'The email address ' + e + ' is ' +
-            '<strong>not verified</strong>.';
-        verifiedMsg = '<p>The email address ' + e + ' has been ' + 
-            '<strong>verified</strong>. You can use this address to send ' + 
-            'messages to your groups, receive messages from groups, and '+
-            'sign in to ' + siteName + '.</p>'+
-            '<p><strong class="label">Important:</strong> You should now ' +
-            '<strong>close</strong> this page before returning to ' +
-            siteName + '.</p>';
-        verifyingMsg = '<strong>Verifying</strong> ' + e + 
-            '&#160;<span data-icon="&#xe619;" aria-hidden="true" '+
-            'class="loading"> </span>';
-        checkingMsg = '<strong>Checking</strong> ' + e + 
-            '&#160;<span data-icon="&#xe619;" aria-hidden="true" '+
-            'class="loading"> </span>';
-        problemMsg = '<strong>Problem</strong> with the address';
+        checkingMsg = jQuery(msgCheckingId);
+        verifyingMsg = jQuery(msgVerifyingId);
+        verifiedMsg = jQuery(msgVerifiedId);
+        problemMsg = jQuery(msgProblemId);
 
-        statusUpdate = jQuery(statusId);
-        statusUpdate.html(checkingMsg);
     }
     init(); // Note the automatic execution
 
@@ -62,17 +47,18 @@ function GSVerifyEmailAddress(email, verificationId, statusId, siteName) {
              success: checkReturn
             };
         jQuery.ajax(d);
-        jQuery(statusUpdate).html(checkingMsg);
+        //
     }
 
     function checkReturn(data, textStatus) {
+        jQuery('.status').removeClass('status-current');
         if ( data == '1' ) {
-            jQuery(statusUpdate).html(verifiedMsg);
+            verifiedMsg.addClass('status-current');
         } else if (data == '0') {
-            jQuery(statusUpdate).html(verifyingMsg);
+            verifyingMsg.addClass('status-current');
             window.setTimeout(verifyAddress, TIMEOUT_DELTA);
         } else {
-            jQuery(statusUpdate).html(problemMsg);
+            problemMsg.addClass('status-current');
         }
     }
     
@@ -82,35 +68,42 @@ function GSVerifyEmailAddress(email, verificationId, statusId, siteName) {
             type: "POST",
             url: VERIFY_ADDRESS, 
             cache: false,
-            data: 'verificationId='+verificationId,
+            data: {'verificationId': verificationId},
             success: checkServer
         };
         jQuery.ajax(d);
     }
     
     function changeCheckingMessage() {
-        jQuery(statusUpdate).html(verifyingMsg);              
+        jQuery('.status').removeClass('status-current');
+        checkingMsg.addClass('status-current');
     }
 
     // Public methods and properties.
     return {
-        start: function () {checkServer();}
+        start: function () {changeCheckingMessage(); checkServer();}
     };
 } // GSVerifyEmailAddress
 
 jQuery(window).load(function () {
     var script=null, 
         verificationId=null, 
-        statusId=null, 
-        siteName=null, 
-        email=null, 
+        email=null,
+        msgChecking=null,
+        msgVerifying=null,
+        msgVerified=null,
+        msgProblem=null,
         checker=null;
 
     script = jQuery('#gs-profile-email-verify-js');
-    email = script.attr('data-email');
-    verificationId = script.attr('data-verificationId');
-    statusId = script.attr('data-statusId');
-    siteName = script.attr('data-siteName');
-    checker = GSVerifyEmailAddress(email, verificationId, statusId, siteName);
+    verificationId = script.data('verification-id');
+    email = script.data('email');
+    msgChecking = script.data('msg-checking');
+    msgVerifying = script.data('msg-verifying');
+    msgVerified = script.data('msg-verified');
+    msgProblem = script.data('msg-verified');
+    
+    checker = GSVerifyEmailAddress(email, verificationId, msgChecking,
+                                   msgVerifying, msgVerified, msgProblem);
     checker.start();
 });
