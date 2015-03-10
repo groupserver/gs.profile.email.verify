@@ -54,5 +54,5 @@ class Notifier(object):
                                  verifyLink=verifyLink)
         ms = MessageSender(self.context, userInfo)
         ms.send_message(subject, text, html, toAddresses=[emailAddress])
-        self.request.response.setHeader(to_ascii('Content-Type'),
+        self.request.response.setHeader(b'Content-Type',
                                         self.oldContentType)

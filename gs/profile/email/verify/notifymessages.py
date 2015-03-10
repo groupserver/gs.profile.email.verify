@@ -34,7 +34,8 @@ class VerifyAddress(SiteEmail, ProfilePage):
           (emailAddress, verificationLink)
         sub = quote('Verify Address')
         retval = 'mailto:%s?Subject=%s&body=%s' % \
-            (self.siteInfo.get_support_email(), sub, quote(msg.encode(UTF8)))
+            (self.siteInfo.get_support_email(), sub,
+             quote(msg.encode(UTF8)))
         return retval
 
 

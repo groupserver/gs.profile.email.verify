@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-##############################################################################
+############################################################################
 #
-# Copyright © 2013 OnlineGroups.net and Contributors.
+# Copyright © 2013, 2015 OnlineGroups.net and Contributors.
 # All Rights Reserved.
 #
 # This software is subject to the provisions of the Zope Public License,
@@ -11,13 +11,12 @@
 # WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
 # FOR A PARTICULAR PURPOSE.
 #
-##############################################################################
+############################################################################
 from __future__ import unicode_literals
 from urllib import quote
 from zope.cachedescriptors.property import Lazy
 from zope.component import createObject
 from Products.Five.browser.pagetemplatefile import ZopeTwoPageTemplateFile
-from gs.core import to_ascii
 from gs.errormesg.baseerror import BaseErrorPage
 
 
@@ -41,8 +40,8 @@ class VerifyIdNotFound(EmailVerifyError):
         self.message = quote(m)
 
     def __call__(self, *args, **kw):
-        self.request.response.setHeader(to_ascii('Content-Type'),
-                                        to_ascii('text/html; charset=UTF-8'))
+        self.request.response.setHeader(b'Content-Type',
+                                        b'text/html; charset=UTF-8')
         # Return 404: Not Found
         self.request.response.setStatus(404)
         return self.index(self, *args, **kw)
@@ -66,8 +65,8 @@ class VerifyIdUsed(EmailVerifyError):
         return retval
 
     def __call__(self, *args, **kw):
-        self.request.response.setHeader(to_ascii('Content-Type'),
-                                        to_ascii('text/html; charset=UTF-8'))
+        self.request.response.setHeader(b'Content-Type',
+                                        b'text/html; charset=UTF-8')
         # Return 410: Gone
         self.request.response.setStatus(410)
         return self.index(self, *args, **kw)
@@ -81,13 +80,13 @@ class VerifyNoId(BaseErrorPage):
         BaseErrorPage.__init__(self, context, request)
         self.linkAddress = '%s/r/verify/' % self.siteInfo.url
         m = 'Hi! I followed the the link %s but I saw an Email '\
-            'Verification Link Error page. I was trying to get to... I found '\
-            'the link in...' % self.linkAddress
+            'Verification Link Error page. I was trying to get to... I '\
+            'found the link in...' % self.linkAddress
         self.message = quote(m)
 
     def __call__(self, *args, **kw):
-        self.request.response.setHeader(to_ascii('Content-Type'),
-                                        to_ascii('text/html; charset=UTF-8'))
+        self.request.response.setHeader(b'Content-Type',
+                                        b'text/html; charset=UTF-8')
         # Return 400: Bad Request
         self.request.response.setStatus(400)
         return self.index(self, *args, **kw)

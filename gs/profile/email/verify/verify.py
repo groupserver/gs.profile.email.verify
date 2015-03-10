@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ############################################################################
 #
-# Copyright © 2013 OnlineGroups.net and Contributors.
+# Copyright © 2013, 2015 OnlineGroups.net and Contributors.
 # All Rights Reserved.
 #
 # This software is subject to the provisions of the Zope Public License,
@@ -17,12 +17,13 @@ from urllib import quote
 from zope.cachedescriptors.property import Lazy
 from gs.profile.base import ProfilePage
 from .queries import VerificationQuery
+from . import GSMessageFactory as _
 
 
 class VerifyEmailPage(ProfilePage):
     def __init__(self, context, request):
         super(VerifyEmailPage, self).__init__(context, request)
-        self.label = 'Verify email'
+        self.label = _('verify-email-label', 'Verify email')
 
     @Lazy
     def verificationId(self):

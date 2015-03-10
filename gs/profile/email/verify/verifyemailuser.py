@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-##############################################################################
+############################################################################
 #
-# Copyright © 2013 OnlineGroups.net and Contributors.
+# Copyright © 2013, 2015 OnlineGroups.net and Contributors.
 # All Rights Reserved.
 #
 # This software is subject to the provisions of the Zope Public License,
@@ -11,7 +11,7 @@
 # WARRANTIES OF TITLE, MERCHANTABILITY, AGAINST INFRINGEMENT, AND FITNESS
 # FOR A PARTICULAR PURPOSE.
 #
-##############################################################################
+############################################################################
 from __future__ import absolute_import
 from zope.cachedescriptors.property import Lazy
 from zope.component.factory import Factory
@@ -74,6 +74,5 @@ class VerifyEmailUserFromId(object):
         return VerifyEmailUser(userInfo)
 
 VerifyEmailUserFactory = Factory(
-                        VerifyEmailUserFromId,
-                        'Verify-Email User from ID',
-                        'Create a verify-email user from a verification ID.')
+    VerifyEmailUserFromId, 'Verify-Email User from ID',
+    'Create a verify-email user from a verification ID.')
