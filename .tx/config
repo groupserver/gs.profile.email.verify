@@ -1,0 +1,9 @@
+[main]
+host = https://www.transifex.com
+
+[gs-profile-email-verify.gs-profile-email-verify-pot]
+file_filter = gs/profile/email/verify/locales/<lang>/LC_MESSAGES/gs.profile.email.verify.po
+source_file = gs/profile/email/verify/locales/en/LC_MESSAGES/gs.profile.email.verify.po
+source_lang = en
+type = PO
+

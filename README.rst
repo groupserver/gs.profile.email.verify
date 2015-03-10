@@ -2,7 +2,7 @@
 ``gs.profile.email.verify``
 ===========================
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-The Verify Email Address page
+The Verify email-address page
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :Author: `Michael JasonSmith`_
@@ -73,7 +73,9 @@ Resources
 =========
 
 - Code repository:
-  https://github.com/groupserver/gs.profile.email.verify
+  https://github.com/groupserver/gs.profile.email.verify/
+- Translations:
+  https://www.transifex.com/projects/p/gs-profile-email-verify/
 - Questions and comments to
   http://groupserver.org/groups/development
 - Report bugs at https://redmine.iopen.net/projects/groupserver

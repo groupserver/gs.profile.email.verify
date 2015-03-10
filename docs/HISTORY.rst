@@ -1,16 +1,20 @@
 Changelog
 =========
 
-3.3.0 (2015-03-05)
+3.3.0 (2015-03-10)
 ------------------
 
 * Handling email addresses with ``+`` characters in them, partly
   closing `Bug 4036`_
+* Adding internationalisation_
 * Naming the reStructuredText files as such
 * Pointing at GitHub_ as the primary repository
 
 .. _Bug 4036: https://redmine.iopen.net/issues/4036
-.. _GitHub: https://github.com/groupserver/gs.profile.email.verify
+.. _internationalisation:
+   https://www.transifex.com/projects/p/gs-profile-email-verify/
+.. _GitHub: https://github.com/groupserver/gs.profile.email.verify/
+
 
 3.2.1 (2014-10-07)
 ------------------
