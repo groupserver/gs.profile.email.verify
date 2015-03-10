@@ -8,22 +8,6 @@
     <title metal:fill-slot="title">
       <span tal:replace="string:${view/label}: ${view/userInfo/name}: ${view/siteInfo/get_name}"/>
     </title>
-    <style type="text/css" metal:fill-slot="style">
-      #gs-profile-email-verify {
-        min-height: 11.25em; /*9u*/
-      }
-      .status {
-        overflow: hidden;
-        max-height: 0;
-        margin:0;
-        padding:0;
-      }
-      .status-current {
-        max-height: 500px;
-        -webkit-transition: max-height 1s;
-        transition: max-height 1s;
-      }
-    </style>
   </head>
   <body>
     <tal:block metal:fill-slot="utilitylinks">
