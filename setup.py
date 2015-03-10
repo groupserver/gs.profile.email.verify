@@ -55,11 +55,13 @@ setup(
     install_requires=[
         'setuptools',
         'pytz',
-        'sqlalchemy',
+        'SQLAlchemy',
         'zope.browserpage',  # For the <browser:page /> declaration
         'zope.browserresource',  # For the <browser:resource /> declaration
         'zope.cachedescriptors',
         'zope.component',
+        'zope.i18n[compile]',
+        'zope.i18nmessageid',
         'zope.interface',
         'zope.pagetemplate',
         'zope.schema',
