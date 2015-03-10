@@ -3,9 +3,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gs.profile.email.verify\n"
-"POT-Creation-Date: 2015-03-10 17:59+0000\n"
-"PO-Revision-Date: 2015-03-10 18:06+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2015-03-10 20:27+0000\n"
+"PO-Revision-Date: 2015-03-10 20:32+0000\n"
+"Last-Translator: Michael JasonSmith <mpj17@onlinegroups.net>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/gs-profile-email-verify/language/fr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -16,6 +16,126 @@ msgstr ""
 "Language-Name: English\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "Preferred-Encodings: utf-8 latin1\n"
+
+#. Default: "Sorry, part of the email-verification link you followed is
+#. missing."
+#: ./browser/templates/verify_no_id.pt:34
+msgid "bad-id-apology"
+msgstr ""
+
+#. Default: "Normally an email-verification link has a unique ID at the end,
+#. which ensures that you verify <em>your</em> email address. However, this ID
+#. is missing from the link you followed: ${url}. Please correct the link: it
+#. should have some random letters and numbers at the end."
+#: ./browser/templates/verify_no_id.pt:45
+msgid "bad-id-fix"
+msgstr ""
+
+#. Default: "Email verification error"
+#: ./browser/templates/verify_no_id.pt:31
+msgid "bad-id-heading"
+msgstr ""
+
+#. Default: "If you are still having trouble, email support at ${supportEmail}
+#. with the specifics of your problem, and we will see what we can do to
+#. help."
+#: ./browser/templates/verify_no_id.pt:52
+msgid "bad-id-support"
+msgstr ""
+
+#. Default: "Missing ID (400): Email Verification: ${siteName}"
+#: ./browser/templates/verify_no_id.pt:10
+msgid "bad-id-title"
+msgstr ""
+
+#. Default: "Sorry, but the email-verification link you followed has already
+#. been used."
+#: ./browser/templates/verify_id_used.pt:34
+msgid "gone-apology"
+msgstr ""
+
+#. Default: "For your security, each email-verification link can only be used
+#. once. The link you followed &#8212; ${url} &#8212; has already been used.
+#. You can:"
+#: ./browser/templates/verify_id_used.pt:45
+msgid "gone-details"
+msgstr ""
+
+#. Default: "<a href=\"/\">View the <strong>homepage</strong></a> of
+#. ${siteName}, or"
+#: ./browser/templates/verify_id_used.pt:58
+msgid "gone-details-home"
+msgstr ""
+
+#. Default: "Log in"
+#: ./browser/templates/verify_id_used.pt:50
+msgid "gone-details-login"
+msgstr ""
+
+#. Default: "Reset your password"
+#: ./browser/templates/verify_id_used.pt:52
+msgid "gone-details-reset"
+msgstr ""
+
+#. Default: "Email-verification link used"
+#: ./browser/templates/verify_id_used.pt:31
+msgid "gone-heading"
+msgstr ""
+
+#. Default: "If you are still having trouble, email support at ${supportEmail}
+#. with the specifics of your problem, and we will see what we can do to
+#. help."
+#: ./browser/templates/verify_id_used.pt:69
+msgid "gone-support"
+msgstr ""
+
+#. Default: "Link Used (410): Email Verification: ${siteName}"
+#: ./browser/templates/verify_id_used.pt:10
+msgid "gone-title"
+msgstr ""
+
+#. Default: "Sorry, but the email-verification link you tried to use &#8212;
+#. ${url} &#8212; could not be found."
+#: ./browser/templates/verify_id_not_found.pt:37
+msgid "not-found-apology"
+msgstr ""
+
+#. Default: "If you <strong>typed</strong> or <strong>copied</strong> the
+#. address into the browser, check the address to make sure there are no
+#. mistakes in it. You will have to retype (or re-copy) the address if there
+#. are mistakes."
+#: ./browser/templates/verify_id_not_found.pt:55
+msgid "not-found-details-copy"
+msgstr ""
+
+#. Default: "A couple of things could have gone wrong."
+#: ./browser/templates/verify_id_not_found.pt:44
+msgid "not-found-details-intro"
+msgstr ""
+
+#. Default: "If you clicked on a link in an <strong>email</strong>, check that
+#. the link is not split over multiple lines. If it is, you will have to
+#. correct it so that it is not split over multiple lines."
+#: ./browser/templates/verify_id_not_found.pt:48
+msgid "not-found-details-split"
+msgstr ""
+
+#. Default: "Email-verification error"
+#: ./browser/templates/verify_id_not_found.pt:31
+msgid "not-found-heading"
+msgstr ""
+
+#. Default: "If you are still having trouble, email support at ${supportEmail}
+#. with the specifics of your problem, and we will see what we can do to
+#. help."
+#: ./browser/templates/verify_id_not_found.pt:65
+msgid "not-found-support"
+msgstr ""
+
+#. Default: "ID Not Found (404): Email Verification: ${siteName}"
+#: ./browser/templates/verify_id_not_found.pt:10
+msgid "not-found-title"
+msgstr ""
 
 #. Default: "Verify email"
 #: ./verify.py:26

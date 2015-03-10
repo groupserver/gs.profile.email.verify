@@ -1,16 +1,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:metal="http://xml.zope.org/namespaces/metal"
-  xmlns:tal="http://xml.zope.org/namespaces/tal"
-  tal:define="siteName python:view.siteInfo.get_name()">
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="gs.profile.email.verify">
   <tal:block metal:use-macro="context/@@groupserver_site_home_layout/page">
     <head>
-      <title metal:fill-slot="title">
-        Missing ID (400): Email Verification: 
-        <tal:block replace="view/siteInfo/name"/>
+      <title metal:fill-slot="title" i18n:translate="bad-id-title">
+        Missing ID (400): Email Verification:
+        <tal:block i18n:name="siteName" replace="view/siteInfo/name"/>
       </title>
       <tal:block metal:fill-slot="metadata">
         <meta name="author" content="OnlineGroups.Net" />
-        <meta name="description" 
+        <meta name="description"
           content="The email-verification ID was not specified" />
       </tal:block>
     </head>
@@ -27,26 +28,32 @@
       <div metal:fill-slot="breadcrumb">&#160;</div>
       <div metal:fill-slot="footer">&#160;</div>
       <div metal:fill-slot="body" class="error-page">
-        <h1>Email Verification Error</h1>
+        <h1 i18n:translate="bad-id-heading">Email verification error</h1>
 
         <!--Apologise, and state what went wrong -->
-        <p id="apology">Sorry, part of the email-verification link you
-          followed is missing.</p>
+        <p id="apology" i18n:translate="bad-id-apology">
+          Sorry, part of the email-verification link you followed
+          is missing.
+        </p>
         <!-- Give a detailed explanation about what went wrong, and -->
         <!--   what can be done.-->
         <div>
-          <p>Normally an email-verification link has a unique ID at the end,
+          <p i18n:translate="bad-id-fix">
+            Normally an email-verification link has a unique ID at the end,
             which ensures that you verify <em>your</em> email address.
             However, this ID is missing from the link you followed:
-          <code class="url" tal:content="view/linkAddress">a link</code>.
+            <code class="url" tal:content="view/linkAddress"
+                  i18n:name="url">a link</code>.
             Please correct the link: it should have some random letters
-            and numbers at the end.</p>
-          <p>If you are still having trouble,
-            <a href="#" 
-              tal:attributes="href string:mailto:${view/supportEmail}?Subject=Email%20Verification%20ID%20Missing&amp;body=${view/message}">email
-                support</a> 
-            with the specifics of your problem, and we will see what we
-            can do to help. 
+            and numbers at the end.
+          </p>
+          <p i18n:translate="bad-id-support">
+            If you are still having trouble, email support at
+            <a href="#" i18n:name="supportEmail"
+               tal:attributes="href string:mailto:${view/supportEmail}?Subject=Email%20Verification%20ID%20Missing&amp;body=${view/message}"
+              tal:content="view/supportEmail">support</a>
+                with the specifics of your problem, and we will see what we
+                can do to help.
           </p>
         </div>
         <!--Lastly, give the technical details about the error. Bots may-->
@@ -59,4 +66,3 @@
     </body>
   </tal:block>
 </html>
-

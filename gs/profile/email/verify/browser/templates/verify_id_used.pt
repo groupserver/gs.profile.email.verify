@@ -1,16 +1,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:metal="http://xml.zope.org/namespaces/metal"
-  xmlns:tal="http://xml.zope.org/namespaces/tal"
-  tal:define="siteName python:view.siteInfo.get_name()">
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="gs.profile.email.verify">
   <tal:block metal:use-macro="context/@@groupserver_site_home_layout/page">
     <head>
-      <title metal:fill-slot="title">
-        Link Used (410): Email Verification: 
-        <tal:block replace="view/siteInfo/name"/>
+      <title metal:fill-slot="title" i18n:translate="gone-title">
+        Link Used (410): Email Verification:
+        <tal:block i18n:name="siteName" replace="view/siteInfo/name"/>
       </title>
       <tal:block metal:fill-slot="metadata">
         <meta name="author" content="OnlineGroups.Net" />
-        <meta name="description" 
+        <meta name="description"
           content="The email-verification link has already been used." />
       </tal:block>
     </head>
@@ -27,39 +28,50 @@
       <div metal:fill-slot="breadcrumb">&#160;</div>
       <div metal:fill-slot="footer">&#160;</div>
       <div metal:fill-slot="body" class="error-page">
-        <h1>Email Verification Link Used</h1>
-        
+        <h1 i18n:translate="gone-heading">Email-verification link used</h1>
+
         <!--Apologise, and state what went wrong -->
-        <p id="apology">Sorry, but the email-verification link you followed
-          has already been used.</p>
+        <p id="apology" i18n:translate="gone-apology">
+          Sorry, but the email-verification link you followed
+          has already been used.
+        </p>
         <!-- Give a detailed explanation about what went wrong, and -->
         <!--   what can be done.-->
         <div>
-          <p>For your security, each email-verification link can only be
+          <p i18n:translate="gone-details">
+            For your security, each email-verification link can only be
             used once.
-            The link you followed  &#8212;
-            <code class="url" tal:content="view/linkAddress">a link</code>
+            The link you followed &#8212;
+            <code class="url" tal:content="view/linkAddress"
+                  i18n:name="url">a link</code>
             &#8212;  has already been used.
-            You can either</p>
+            You can:</p>
           <ul tal:condition="view/loggedInUser/anonymous">
-            <li><a href="/login.html?came_from=/">Log in</a>, or</li>
-            <li><a href="/reset_password.html">Reset your password.</a>
+            <li><a href="/login.html?came_from=/"
+                   i18n:translate="gone-details-login">Log in</a></li>
+            <li><a href="/reset_password.html"
+                   i18n:translate="gone-details-reset">Reset your password</a></li>
           </ul>
           <ul tal:condition="not:view/loggedInUser/anonymous">
-            <li><a href="/">View the <strong>homepage</strong></a> of 
-              <span class="site" tal:content="view/siteInfo/name">this
-                site</span>, or</li>
-            <li><a href="#"
-              tal:attributes="href view/loggedInUser/url">View your
-                <strong>profile,</strong></a> which lists all your
-                <strong>groups.</strong></li>
+            <li i18n:translate="gone-details-home">
+              <a href="/">View the <strong>homepage</strong></a> of
+              <span class="site" tal:content="view/siteInfo/name"
+                    i18n:name="siteName">this site</span>, or
+            </li>
+            <li>
+              <a href="#" tal:attributes="href view/loggedInUser/url">View your
+              <strong>profile,</strong></a> which lists all your
+              <strong>groups.</strong>
+            </li>
           </ul>
-          <p>If you are still having trouble,
-            <a href="#" 
-              tal:attributes="href string:mailto:${view/supportEmail}?Subject=Email%20Verification%20Link%20Used&amp;body=${view/message}">email
-                support</a> 
+          <p i18n:translate="gone-support">
+            If you are still having trouble, email support at
+            <a href="#"
+               tal:attributes="href string:mailto:${view/supportEmail}?Subject=Email%20Verification%20Link%20Used&amp;body=${view/message}"
+               i18n:name="supportEmail"
+               tal:content="view/supportEmail">support</a>
             with the specifics of your problem, and we will see what we
-            can do to help. 
+            can do to help.
           </p>
         </div>
         <!--Lastly, give the technical details about the error. Bots may-->
@@ -67,12 +79,11 @@
         <p id="technical">Technical Description:
           <code class="error"><span class="val">410</span>
             <span class="description">Gone</span></code>;
-            <span class="detail">ID: 
+            <span class="detail">ID:
               <code class="val"
-                tal:content="view/verificationId">abc123</code>.
+                tal:content="view/verificationId">abc123</code>.</span>
         </p>
       </div>
     </body>
   </tal:block>
 </html>
-
