@@ -12,7 +12,10 @@
 <!-- FITNESS FOR A PARTICULAR PURPOSE. -->
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:browser="http://namespaces.zope.org/browser"
-           i18n_domain="groupserver">
+           xmlns:i18n="http://namespaces.zope.org/i18n"
+           i18n_domain="gs.profile.email.verify">
+
+  <i18n:registerTranslations directory="locales" />
 
   <!-- Auditor -->
   <utility

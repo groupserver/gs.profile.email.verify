@@ -1,0 +1,51 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2015-03-10 17:59+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI +ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: DOMAIN\n"
+
+#. Default: "Verify email"
+#: ./verify.py:26
+msgid "verify-email-label"
+msgstr ""
+
+#. Default: "<strong>Checking</strong> ${emailAddress} ${loadingIcon}"
+#: ./browser/templates/verify.pt:23
+msgid "verify-page-checking"
+msgstr ""
+
+#. Default: "<strong>Problem</strong> with the address ${emailAddress}."
+#: ./browser/templates/verify.pt:57
+msgid "verify-page-problem"
+msgstr ""
+
+#. Default: "Verify email address"
+#: ./browser/templates/verify.pt:17
+msgid "verify-page-title"
+msgstr ""
+
+#. Default: "The email address ${emailAddress} has been <strong>verified</strong>. You can use this address to send messages to your groups, receive messages from groups, and sign in to ${siteName}."
+#: ./browser/templates/verify.pt:44
+msgid "verify-page-verified"
+msgstr ""
+
+#. Default: "<strong class=\"label\">Important:</strong> You should now <strong>close</strong> this page before returning to ${siteName}."
+#: ./browser/templates/verify.pt:50
+msgid "verify-page-verified-close"
+msgstr ""
+
+#. Default: "<strong>Verifying</strong> ${emailAddress} ${loadingIcon}"
+#: ./browser/templates/verify.pt:32
+msgid "verify-page-verifying"
+msgstr ""
+
