@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "POT-Creation-Date: 2015-03-10 20:27+0000\n"
-"PO-Revision-Date: 2015-03-10 13:32-0700\n"
+"PO-Revision-Date: 2015-03-12 12:21-0700\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +21,6 @@ msgstr "Sorry, part of the email-verification link you followed is missing."
 
 #. Default: "Normally an email-verification link has a unique ID at the end, which ensures that you verify <em>your</em> email address. However, this ID is missing from the link you followed: ${url}. Please correct the link: it should have some random letters and numbers at the end."
 #: ./browser/templates/verify_no_id.pt:45
-#, fuzzy
 msgid "bad-id-fix"
 msgstr "Normally an email-verification link has a unique ID at the end, which ensures that you verify <em>your</em> email address. However, this ID is missing from the link you followed: ${url}. Please correct the link: it should have some random letters and numbers at the end."
 
@@ -108,7 +107,7 @@ msgstr "Email-verification error"
 #. Default: "If you are still having trouble, email support at ${supportEmail} with the specifics of your problem, and we will see what we can do to help."
 #: ./browser/templates/verify_id_not_found.pt:65
 msgid "not-found-support"
-msgstr ""
+msgstr "If you are still having trouble, email support at ${supportEmail} with the specifics of your problem, and we will see what we can do to help."
 
 #. Default: "ID Not Found (404): Email Verification: ${siteName}"
 #: ./browser/templates/verify_id_not_found.pt:10

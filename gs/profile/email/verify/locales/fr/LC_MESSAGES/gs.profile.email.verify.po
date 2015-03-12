@@ -1,10 +1,12 @@
 # 
 # Translators:
+# Michael JasonSmith <mpj17@onlinegroups.net>, 2015
+# Razique Mahroua <razique.mahroua@gmail.com>, 2015
 msgid ""
 msgstr ""
 "Project-Id-Version: gs.profile.email.verify\n"
 "POT-Creation-Date: 2015-03-10 20:27+0000\n"
-"PO-Revision-Date: 2015-03-10 20:32+0000\n"
+"PO-Revision-Date: 2015-03-12 19:36+0000\n"
 "Last-Translator: Michael JasonSmith <mpj17@onlinegroups.net>\n"
 "Language-Team: French (http://www.transifex.com/projects/p/gs-profile-email-verify/language/fr/)\n"
 "MIME-Version: 1.0\n"
@@ -21,7 +23,7 @@ msgstr ""
 #. missing."
 #: ./browser/templates/verify_no_id.pt:34
 msgid "bad-id-apology"
-msgstr ""
+msgstr "Désolé, une partie du lien contenue dans l'e-mail de vérification est manquante."
 
 #. Default: "Normally an email-verification link has a unique ID at the end,
 #. which ensures that you verify <em>your</em> email address. However, this ID
@@ -34,71 +36,71 @@ msgstr ""
 #. Default: "Email verification error"
 #: ./browser/templates/verify_no_id.pt:31
 msgid "bad-id-heading"
-msgstr ""
+msgstr "Erreur de vérification e-mail"
 
 #. Default: "If you are still having trouble, email support at ${supportEmail}
 #. with the specifics of your problem, and we will see what we can do to
 #. help."
 #: ./browser/templates/verify_no_id.pt:52
 msgid "bad-id-support"
-msgstr ""
+msgstr "Si vous rencontrez des problèmes, contactez le support à ${supportEmail}, avec les détails de votre problème. Nous nous ferons un plaisir de vous aider."
 
 #. Default: "Missing ID (400): Email Verification: ${siteName}"
 #: ./browser/templates/verify_no_id.pt:10
 msgid "bad-id-title"
-msgstr ""
+msgstr "ID Manquant (400) : Vérfication e-mail : ${siteName}"
 
 #. Default: "Sorry, but the email-verification link you followed has already
 #. been used."
 #: ./browser/templates/verify_id_used.pt:34
 msgid "gone-apology"
-msgstr ""
+msgstr "Désolé, mais le lien de vérification sur lequel vous avez cliqué a déjà été utilisé."
 
 #. Default: "For your security, each email-verification link can only be used
 #. once. The link you followed &#8212; ${url} &#8212; has already been used.
 #. You can:"
 #: ./browser/templates/verify_id_used.pt:45
 msgid "gone-details"
-msgstr ""
+msgstr "Pour votre sécurité, chaque lien de confirmation ne peut être utilisé qu'une seule fois. Le lien sur lequel vous avez cliqué &#8212; ${url} &#8212; a déjà été utilisé. Il vous est possible de :"
 
 #. Default: "<a href=\"/\">View the <strong>homepage</strong></a> of
 #. ${siteName}, or"
 #: ./browser/templates/verify_id_used.pt:58
 msgid "gone-details-home"
-msgstr ""
+msgstr "<a href=\"/\">Afficher la <strong>page d'accueil</strong></a> de ${siteName}, ou"
 
 #. Default: "Log in"
 #: ./browser/templates/verify_id_used.pt:50
 msgid "gone-details-login"
-msgstr ""
+msgstr "Se connecter"
 
 #. Default: "Reset your password"
 #: ./browser/templates/verify_id_used.pt:52
 msgid "gone-details-reset"
-msgstr ""
+msgstr "Réinitialiser votre mot de passe"
 
 #. Default: "Email-verification link used"
 #: ./browser/templates/verify_id_used.pt:31
 msgid "gone-heading"
-msgstr ""
+msgstr "Lien de vérification déjà utilisé"
 
 #. Default: "If you are still having trouble, email support at ${supportEmail}
 #. with the specifics of your problem, and we will see what we can do to
 #. help."
 #: ./browser/templates/verify_id_used.pt:69
 msgid "gone-support"
-msgstr ""
+msgstr "Si vous rencontrez des problèmes, contactez le support à ${supportEmail}, avec les détails de votre problème. Nous nous ferons un plaisir de vous aider."
 
 #. Default: "Link Used (410): Email Verification: ${siteName}"
 #: ./browser/templates/verify_id_used.pt:10
 msgid "gone-title"
-msgstr ""
+msgstr "Lien utilisé (410) : E-mail de vérification : ${siteName}"
 
 #. Default: "Sorry, but the email-verification link you tried to use &#8212;
 #. ${url} &#8212; could not be found."
 #: ./browser/templates/verify_id_not_found.pt:37
 msgid "not-found-apology"
-msgstr ""
+msgstr "Désolé, mais le lien de vérification que vous avez essayé d'utiliser &#8212; ${url} &#8212; n'a pas pu être trouvé."
 
 #. Default: "If you <strong>typed</strong> or <strong>copied</strong> the
 #. address into the browser, check the address to make sure there are no
@@ -106,71 +108,71 @@ msgstr ""
 #. are mistakes."
 #: ./browser/templates/verify_id_not_found.pt:55
 msgid "not-found-details-copy"
-msgstr ""
+msgstr "Si vous avez <strong>tapé</strong>, ou bien <strong>copié</strong> l'adresse dans votre navigateur, veuillez la vérifier, afin de vous assurer qu'il n'y a aucune erreur. Il vous faudra retaper (ou bien copier) l'adresse, si vous constatez une erreur."
 
 #. Default: "A couple of things could have gone wrong."
 #: ./browser/templates/verify_id_not_found.pt:44
 msgid "not-found-details-intro"
-msgstr ""
+msgstr "Deux choses se sont mal passées."
 
 #. Default: "If you clicked on a link in an <strong>email</strong>, check that
 #. the link is not split over multiple lines. If it is, you will have to
 #. correct it so that it is not split over multiple lines."
 #: ./browser/templates/verify_id_not_found.pt:48
 msgid "not-found-details-split"
-msgstr ""
+msgstr "Si vous avez cliqué sur le lien présent dans l'<strong>e-mail</strong>, assurez-vous que le lien n'a pas été coupé en plusieurs lignes. Si c'est le cas, veuillez corriger le lien, afin qu'il n'y ait qu'une seule ligne."
 
 #. Default: "Email-verification error"
 #: ./browser/templates/verify_id_not_found.pt:31
 msgid "not-found-heading"
-msgstr ""
+msgstr "Erreur de vérification e-mail"
 
 #. Default: "If you are still having trouble, email support at ${supportEmail}
 #. with the specifics of your problem, and we will see what we can do to
 #. help."
 #: ./browser/templates/verify_id_not_found.pt:65
 msgid "not-found-support"
-msgstr ""
+msgstr "Si vous rencontrez des problèmes, contactez le support à ${supportEmail}, avec les détails de votre problème. Nous nous ferons un plaisir de vous aider."
 
 #. Default: "ID Not Found (404): Email Verification: ${siteName}"
 #: ./browser/templates/verify_id_not_found.pt:10
 msgid "not-found-title"
-msgstr ""
+msgstr "ID non trouvé (404) : Vérfication e-mail : ${siteName}"
 
 #. Default: "Verify email"
 #: ./verify.py:26
 msgid "verify-email-label"
-msgstr ""
+msgstr "Vérifier l'e-mail"
 
 #. Default: "<strong>Checking</strong> ${emailAddress} ${loadingIcon}"
 #: ./browser/templates/verify.pt:23
 msgid "verify-page-checking"
-msgstr ""
+msgstr "<strong>Vérification</strong> ${emailAddress} ${loadingIcon}"
 
 #. Default: "<strong>Problem</strong> with the address ${emailAddress}."
 #: ./browser/templates/verify.pt:57
 msgid "verify-page-problem"
-msgstr ""
+msgstr "Un <strong>Problème</strong> est survenue avec l'adresse ${emailAddress}."
 
 #. Default: "Verify email address"
 #: ./browser/templates/verify.pt:17
 msgid "verify-page-title"
-msgstr ""
+msgstr "Vérifier l'adresse e-mail"
 
 #. Default: "The email address ${emailAddress} has been
 #. <strong>verified</strong>. You can use this address to send messages to
 #. your groups, receive messages from groups, and sign in to ${siteName}."
 #: ./browser/templates/verify.pt:44
 msgid "verify-page-verified"
-msgstr ""
+msgstr "L'adresse e-mail ${emailAddress} a été <strong>validée</strong>. Vous pouvez désormais utiliser cette adresse afin d'envoyer des messages au groupe, recevoir des messages, et vous connecter au site ${siteName}."
 
 #. Default: "<strong class=\"label\">Important:</strong> You should now
 #. <strong>close</strong> this page before returning to ${siteName}."
 #: ./browser/templates/verify.pt:50
 msgid "verify-page-verified-close"
-msgstr ""
+msgstr "<strong class=\"label\">Important :</strong> vous devez maintenant <strong>fermer</strong> cette page, avant de retourner sur le site ${siteName}."
 
 #. Default: "<strong>Verifying</strong> ${emailAddress} ${loadingIcon}"
 #: ./browser/templates/verify.pt:32
 msgid "verify-page-verifying"
-msgstr ""
+msgstr "${emailAddress} en cours de<strong>vérification</strong> ${loadingIcon}"
