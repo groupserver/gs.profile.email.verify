@@ -1,7 +1,7 @@
 <tal:block
   define="userInfo options/userInfo | view/userInfo;
           emailAddress options/emailAddress | string:placeholder@example.com;
-          verifyLink options/verifyLink | string:${view/siteInfo/url}/r/verify/placeholder">Dear <tal:block content="userInfo/name">User</tal:block>,
+          verifyLink options/verifyLink | string:${view/siteInfo/url}/r/verify/placeholder">Hello <tal:block content="userInfo/name">User</tal:block>,
 
 Click the following link to verify that you control the email address
 <tal:block content="emailAddress">addr</tal:block>.

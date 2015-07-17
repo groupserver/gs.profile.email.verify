@@ -1,6 +1,14 @@
 Changelog
 =========
 
+3.4.0 (2015-07-17)
+------------------
+
+* Updating the ``mailto:`` addresses so they include a link to
+  the profile page of the person
+* Adding a ``preheader`` to the HTML notification
+* ``s/Dear/Hello/g``
+
 3.3.0 (2015-03-12)
 ------------------
 

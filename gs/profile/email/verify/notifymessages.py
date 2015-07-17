@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-# Copyright © 2013 OnlineGroups.net and Contributors.
+# Copyright © 2013, 2015 OnlineGroups.net and Contributors.
 # All Rights Reserved.
 #
 # This software is subject to the provisions of the Zope Public License,
@@ -13,7 +13,6 @@
 #
 ##############################################################################
 from __future__ import unicode_literals
-from urllib import quote
 from zope.cachedescriptors.property import Lazy
 from gs.content.email.base import SiteEmail, TextMixin
 from gs.profile.base.page import ProfilePage
@@ -21,21 +20,28 @@ from Products.GSGroup.interfaces import IGSMailingListInfo
 UTF8 = 'utf-8'
 
 
-class VerifyAddress(SiteEmail, ProfilePage):
+class VerifyAddress(ProfilePage, SiteEmail):
     @Lazy
     def email(self):
         l = IGSMailingListInfo(self.groupInfo.groupObj)
         retval = l.get_property('mailto')
         return retval
 
-    def get_support_email(self, verificationLink, emailAddress):
-        msg = 'Hi,\n\nI received a message to verify the email address '\
-                '<%s>,\nusing the link <%s> and...' %\
-          (emailAddress, verificationLink)
-        sub = quote('Verify Address')
-        retval = 'mailto:%s?Subject=%s&body=%s' % \
-            (self.siteInfo.get_support_email(), sub,
-             quote(msg.encode(UTF8)))
+    def get_support_email(self, verificationLink, emailAddress, userInfo):
+        b = '''Hello,
+
+I received a message to verify the email address <{email}>,
+using the link <{link}>
+and...
+
+--
+Me: {userInfo.name}
+    <{siteInfo.url}{userInfo.url}>
+'''
+        body = b.format(email=emailAddress, link=verificationLink,
+                        siteInfo=self.siteInfo, userInfo=userInfo)
+        retval = self.mailto(self.siteInfo.get_support_email(),
+                             'Verify address', body)
         return retval
 
 

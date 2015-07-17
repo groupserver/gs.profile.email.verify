@@ -22,7 +22,7 @@ utf8 = 'utf-8'
 def create_verification_message(userInfo, siteInfo, toAddr, fromAddr,
                                 verificationId):
     container = MIMEMultipart('alternative')
-    subject = u'Verify Address on %s' % siteInfo.name
+    subject = u'Verify your email address on %s' % siteInfo.name
     container['Subject'] = str(Header(subject.encode(utf8), utf8))
     container['From'] = str(fromAddr)
     container['To'] = str(toAddr)

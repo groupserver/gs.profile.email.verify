@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-version = '3.3.0'
+version = '3.4.0'
 release = False
 
 #--------------------------------------------------------------------------#
@@ -62,7 +62,7 @@ def get_version():
         if release:
             version_string = version
         else:
-            version_string = "%s.dev%s-%s" % (version, datestring, globalid)
+            version_string = "%s.dev%s+%s" % (version, datestring, globalid)
 
     except (CommandError, ValueError, TypeError):
         # --=mpj17=-- Usually because we are building out a source-egg,
