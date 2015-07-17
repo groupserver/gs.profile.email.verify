@@ -51,6 +51,7 @@ setup(
     url='https://github.com/groupserver/{0}'.format(name),
     license='ZPL 2.1',
     packages=find_packages(exclude=['ez_setup']),
+    namespace_packages=['.'.join(name.split('.')[:i])
                         for i in range(1, len(name.split('.')))],
     include_package_data=True,
     zip_safe=False,
